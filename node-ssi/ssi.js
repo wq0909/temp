@@ -7,9 +7,7 @@ var INCLUDE_PATTERN = new RegExp('<!--#include file=[\"|\'](.*?\.html)[\"|\'] --
 module.exports = ssi;
 
 function ssi( config ){
-
 	this._tab = true;
-	
 	var filepath = path.resolve( DIR_PATH, 'test.html');
 	readHtml.call(this, filepath, function( content ){
 		var match = content.match( INCLUDE_PATTERN );
@@ -31,9 +29,9 @@ function readHtml( filepath, onload ){
 		if (err) {
 			if( this._matchObject ){
 				var temp = [];
-				!this._tab || temp.push('<!--'+this._matchObject.fileName+ ' start -->');
+				this._tab && temp.push('<!--'+this._matchObject.fileName+ ' start -->');
 				temp.push('<!-- err '+this._matchObject.fileName+ ' end -->');
-				!this._tab || temp.push('<!--'+this._matchObject.fileName+ ' end -->');
+				this._tab && temp.push('<!--'+this._matchObject.fileName+ ' end -->');
 				this.data = this.data.replace( this._matchObject.matchString, temp.join('\r\n') );
 			}
 			onload(this.data);
@@ -41,9 +39,9 @@ function readHtml( filepath, onload ){
 		else {
 			if( this._matchObject ){
 				var temp = [];
-				!this._tab || temp.push('<!--'+this._matchObject.fileName+ ' start -->');
+				this._tab && temp.push('<!--'+this._matchObject.fileName+ ' start -->');
 				temp.push(data.toString());
-				!this._tab || temp.push('<!--'+this._matchObject.fileName+ ' end -->');
+				this._tab && temp.push('<!--'+this._matchObject.fileName+ ' end -->');
 				this.data = this.data.replace( this._matchObject.matchString, temp.join('\r\n') );
 			}else{
 				this.data = data.toString();
