@@ -10,7 +10,7 @@ function ssiCore( config, callback ){
 	var config = this.config = marge.call( this, config, {
 		'wwwroot' : '/',
 		'filepath' : '',
-		'tab' : true,
+		'tab' : false,
 		'limit' : 500
 	});
 	this._layer = 0;
