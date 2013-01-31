@@ -5,7 +5,8 @@ var fs = require('fs'),
 	url = require('url');
 
 var INCLUDE_PATTERN = new RegExp('<!--#include file=[\"|\'](.*?\.html)[\"|\'] -->'),
-	IP_PATTERN = /^(?:\d+\.){3}\d+$/;
+	IP_PATTERN = /^(?:\d+\.){3}\d+$/,
+	FILE_EXT = [ 'html' , 'htm' ];
 
 module.exports = ssiWebClient;
 
@@ -19,41 +20,53 @@ function ssiWebClient( config ){
 	});
 	this.layer = 0;
 	//this.callback = callback;
-	
-	
-	
-	if( config.response.status() === 200 ){
-		var ext = config.request.pathname.replace(/.*[\.\/]/, '').toLowerCase();
-		
-		if( ext === 'html' || ext === 'htm' ){
-			var uri = url.parse(config.request.href);
-			this.options = {
-				hostname : uri.hostname,
-				path : uri.path,
-				post : uri.post || 80
-			}
-			console.dir( uri );
-			//this.options.headers.host = options.hostname;
-			this.client = uri.protocol === 'https:' ? https : http;
-			
-			main.call(this);
-		}
+	this.data = config.response.body();
+	//页面没有找到
+	if( config.response.status() !== 200 ){
+		output.call(this,null);
 	}
+	
+	//请求文件扩展名
+	var ext = config.request.pathname.replace(/.*[\.\/]/, '').toLowerCase();
+	//扩展名不适合
+	if( FILE_EXT.indexOf( ext ) === -1 ){
+		output.call(this,null);
+	}
+	
+	var uri = url.parse(config.request.href);
+	this.options = {
+		hostname : uri.hostname,
+		path : uri.path,
+		post : uri.post || 80,
+		body : config.request.body()
+	}
+	//this.options.headers.host = options.hostname;
+	this.client = uri.protocol === 'https:' ? https : http;
+	
+	main.call(this);
 }
 
 function main(){
-	send.call(this, this.options.path , function( content ){
-		var m = content.match( INCLUDE_PATTERN );
-		if( m ){
-			return {
-				tmpl : m[0],
-				filepath : m[1]
-			};
-		}else{
-			html200.call(this);
-			return;
-		}
-	}.bind(this));
+	var m = contentMatch.call( this, this.data );
+	console.log('main');
+	console.dir( m );
+	if( m ){
+		this.tmplMatch = m;
+		send.call( this, m.filepath , contentMatch.bind(this) );
+	}
+}
+
+function  contentMatch( content ){
+	var m = content.match( INCLUDE_PATTERN );
+	if( m ){
+		return {
+			tmpl : m[0],
+			filepath : m[1]
+		};
+	}else{
+		html200.call(this);
+		return;
+	}
 }
 
 function send( filepath, onload ){
@@ -69,57 +82,56 @@ function send( filepath, onload ){
 	if( this.layer > limit ){
 		htmlError500.call( this );
 		return;
-	}
-	
-	//console.dir(this);
+	} 
 	req = this.client.request(options, function (response) {
 			var status, 
 				head,
 				body = [];
 			response.on('data', function (chunk) {
 				console.log('------------ send data ---------------');
-				// body.push(chunk);
+				//console.log(chunk);
+				body.push(chunk);
 			});
 
 			response.on('end', function () {
 				console.log('------------ send end ---------------');
 				
-				// body = Buffer.concat(body),
-				// tmplMatch = this.tmplMatch;
-				
-				// if( tmplMatch ){
-					// var arr = [];
-					// tab && arr.push('<!--' + tmplMatch.filepath + ' start -->');
-					// arr.push(body.toString());
-					// tab && arr.push('<!--' + tmplMatch.filepath + ' end -->');
-					// this.data = this.data.replace( tmplMatch.tmpl, arr.join('\r\n') );
-				// }else{
-					// this.data = body.toString();
-				// }
-				
-				// var m = onload( this.data );
-				// if( m ){
-					// this.tmplMatch = m;
-					// send.call(this, m.filepath , onload);
-				// }
+				body = Buffer.concat(body);
+				console.log( body.toString() );
+				tmplMatch = this.tmplMatch;
+				if( tmplMatch ){
+					var arr = [];
+					tab && arr.push('<!--' + tmplMatch.filepath + ' start -->');
+					arr.push(body.toString());
+					tab && arr.push('<!--' + tmplMatch.filepath + ' end -->');
+					this.data = this.data.replace( tmplMatch.tmpl, arr.join('\r\n') );
+				}else{
+					this.data = body.toString();
+				}
+				var m = onload( this.data );
+				if( m ){
+					this.tmplMatch = m;
+					send.call(this, m.filepath , onload);
+				}
 			});
 		});
 	req.on('error', function(){
 		console.log('------------ send error ---------------');
-		// if( this.tmplMatch ){
-			// var arr = [];
-			// tab && arr.push('<!--' + tmplMatch.filepath + ' start -->');
-			// arr.push(body.toString());
-			// tab && arr.push('<!--' + tmplMatch.filepath + ' end -->');
-			// this.data = this.data.replace( tmplMatch.tmpl, arr.join('\r\n') );
-		// }
-		// this.data = this.data || '';
-		// if( this.layer === 1 && this.data === '' ){
-			// htmlError404.call( this );
-		// }else{
-			// onload( this.data );
-		// }
+		if( this.tmplMatch ){
+			var arr = [];
+			tab && arr.push('<!--' + tmplMatch.filepath + ' start -->');
+			arr.push(body.toString());
+			tab && arr.push('<!--' + tmplMatch.filepath + ' end -->');
+			this.data = this.data.replace( tmplMatch.tmpl, arr.join('\r\n') );
+		}
+		this.data = this.data || '';
+		if( this.layer === 1 && this.data === '' ){
+			htmlError404.call( this );
+		}else{
+			onload( this.data );
+		}
 	});
+	req.end();
 }
 function html200(){
 	output.call( this,{ 
@@ -141,14 +153,17 @@ function htmlError500(){
 }
 function output( obj ){
 	var res = this.config.response;
-	if( this.config.debug){
-		console.dir( obj );
+	if( !obj ){
+		//res.clear()
+		res.write( '' );
 	}else{
-		res.status(obj.status)
-		//if( obj.statusCode === 200 ){
-		res.clear();
-		res.write(obj.content);
-		//}
+		if( this.config.debug){
+			console.dir( obj );
+		}else{
+			res.status(obj.status);
+			res.clear();
+			res.write(obj.content);
+		}
 	}
 }
 function marge(newObject, defObject) {
