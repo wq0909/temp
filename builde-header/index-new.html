@@ -48,7 +48,7 @@
 					</h2>
 					<div class="field-pair">
 						<label class="clearfix">
-							<input type="radio" name="layout" value="full">
+							<input type="radio" id="layout-full" name="layout" value="full">
 							<span class="layout-title">
 								Full
 							</span>
@@ -69,208 +69,214 @@
 						</label>
 					</div>
 				</div>
-				<div class="download-builder-header">
-					<h2>
-						Components
-					</h2>
-					<label class="toggleAll"><input type="checkbox" class="ui-widget-content" checked="checked"> Toggle All</label>
-				</div>
-				<div class="components-area">
-					<div class="ui-widget ui-widget-content component-group clearfix">
-						<div class="component-group-desc">
-							<h3>
-								UI Core
-							</h3>
+				
+				<div class="download-builder-component">
+					<div class="download-builder-header">
+						<h2>
+							Components
+						</h2>
+						<label class="toggleAll"><input type="checkbox" class="ui-widget-content" checked="checked"> Toggle All</label>
+					</div>
+					<div class="components-area">
+						<div class="ui-widget ui-widget-content component-group clearfix">
+							<div class="component-group-desc">
+								<h3>
+									UI Core
+								</h3>
+							</div>
+							<div class="component-group-list">
+								<div class="clearfix">
+									<input type="checkbox" data-dependencies="" class="ui-widget-content" name="core" id="core" checked="checked"/>
+									<label class="clearfix" title="" for="core">
+										<span class="component-title">
+											Core
+										</span>
+										<span class="component-desc">
+											核心.
+										</span>
+									</label>
+								</div>
+								<div class="clearfix">
+									<input type="checkbox" data-dependencies="core" class="ui-widget-content" name="sundry" id="sundry" checked="checked"/>
+									<label class="clearfix" title="" for="sundry">
+										<span class="component-title">
+											Sundry
+										</span>
+										<span class="component-desc">
+											杂项功能.
+										</span>
+									</label>
+								</div>
+								<div class="clearfix">
+									<input type="checkbox" data-dependencies="core" class="ui-widget-content" name="beacon" id="beacon" checked="checked"/>
+									<label class="clearfix" title="" for="beacon">
+										<span class="component-title">
+											Beacon
+										</span>
+										<span class="component-desc">
+											灯塔功能.
+										</span>
+									</label>
+								</div>
+								<div class="clearfix">
+									<input type="checkbox" data-dependencies="core" class="ui-widget-content" name="searchbar" id="searchbar" checked="checked"/>
+									<label class="clearfix" title="" for="searchbar">
+										<span class="component-title">
+											Searchbar
+										</span>
+										<span class="component-desc">
+											搜索功能.
+										</span>
+									</label>
+								</div>
+								
+							</div>
 						</div>
-						<div class="component-group-list">
-							<div class="clearfix">
-								<input type="checkbox" data-dependencies="" class="ui-widget-content" name="core" id="core" checked="checked"/>
-								<label class="clearfix" title="" for="core">
-									<span class="component-title">
-										Core
-									</span>
-									<span class="component-desc">
-										核心.
-									</span>
-								</label>
+						
+						<div class="ui-widget ui-widget-content component-group clearfix">
+							<div class="component-group-desc">
+								<h3>
+									Sundry
+								</h3>
 							</div>
-							<div class="clearfix">
-								<input type="checkbox" data-dependencies="core" class="ui-widget-content" name="sundry" id="sundry" checked="checked"/>
-								<label class="clearfix" title="" for="sundry">
-									<span class="component-title">
-										Sundry
-									</span>
-									<span class="component-desc">
-										杂项功能.
-									</span>
-								</label>
+							<div class="component-group-list">
+								<div class="clearfix">
+									<input type="checkbox" data-dependencies="core,sundry" class="ui-widget-content" name="sundry-anchor" id="anchor" checked="checked"/>
+									<label class="clearfix" title="" for="anchor">
+										<span class="component-title">
+											anchor
+										</span>
+										<span class="component-desc">
+											文字链接模块
+										</span>
+									</label>
+								</div>
+								<div class="clearfix">
+									<input type="checkbox" data-dependencies="core,sundry,searchbar" class="ui-widget-content" name="sundry-action" id="action" checked="checked"/>
+									<label class="clearfix" title="" for="action">
+										<span class="component-title">
+											action
+										</span>
+										<span class="component-desc">
+											按扭链接模块
+										</span>
+									</label>
+								</div>
+								<div class="clearfix">
+									<input type="checkbox" data-dependencies="core,sundry" class="ui-widget-content" name="sundry-extend" id="extend" checked="checked"/>
+									<label class="clearfix" title="" for="extend">
+										<span class="component-title">
+											extend
+										</span>
+										<span class="component-desc">
+											自定义扩展模块
+										</span>
+									</label>
+								</div>
 							</div>
-							<div class="clearfix">
-								<input type="checkbox" data-dependencies="core" class="ui-widget-content" name="beacon" id="beacon" checked="checked"/>
-								<label class="clearfix" title="" for="beacon">
-									<span class="component-title">
-										Beacon
-									</span>
-									<span class="component-desc">
-										灯塔功能.
-									</span>
-								</label>
-							</div>
-							<div class="clearfix">
-								<input type="checkbox" data-dependencies="core" class="ui-widget-content" name="searchbar" id="searchbar" checked="checked"/>
-								<label class="clearfix" title="" for="searchbar">
-									<span class="component-title">
-										Searchbar
-									</span>
-									<span class="component-desc">
-										搜索功能.
-									</span>
-								</label>
-							</div>
-							
 						</div>
+						
+						
+						<div class="ui-widget ui-widget-content component-group clearfix">
+							<div class="component-group-desc">
+								<h3>
+									Beacon
+								</h3>
+							</div>
+							<div class="component-group-list">
+								<div class="clearfix">
+									<input type="checkbox" data-dependencies="core,beacon" class="ui-widget-content" name="beacon-user" id="user" checked="checked"/>
+									<label class="clearfix" title="" for="user">
+										<span class="component-title">
+											user
+										</span>
+										<span class="component-desc">
+											用户信息模块
+										</span>
+									</label>
+								</div>
+								<div class="clearfix">
+									<input type="checkbox" data-dependencies="core,beacon" class="ui-widget-content" name="beacon-nav" id="nav" checked="checked"/>
+									<label class="clearfix" title="" for="nav">
+										<span class="component-title">
+											nav
+										</span>
+										<span class="component-desc">
+											灯塔导航模块
+										</span>
+									</label>
+								</div>
+							</div>
+						</div>
+						
+						
+						<div class="ui-widget ui-widget-content component-group clearfix">
+							<div class="component-group-desc">
+								<h3>
+									Searchbar
+								</h3>
+							</div>
+							<div class="component-group-list">
+								<div class="clearfix">
+									<input type="checkbox" data-dependencies="core,searchbar" class="ui-widget-content" name="searchbar-advanced" id="advanced" checked="checked"/>
+									<label class="clearfix" title="" for="advanced">
+										<span class="component-title">
+											advanced
+										</span>
+										<span class="component-desc">
+											高级搜索
+										</span>
+									</label>
+								</div>
+								<div class="clearfix">
+									<input type="checkbox" data-dependencies="core,searchbar" class="ui-widget-content" name="searchbar-type" id="type" checked="checked"/>
+									<label class="clearfix" title="" for="type">
+										<span class="component-title">
+											type
+										</span>
+										<span class="component-desc">
+											搜索类型选择，默认提供Product、Supplier、Buyer三种搜索类型的切换。
+										</span>
+									</label>
+								</div>
+								<div class="clearfix">
+									<input type="checkbox" data-dependencies="core,searchbar" class="ui-widget-content" name="searchbar-related" id="related" checked="checked"/>
+									<label class="clearfix" title="" for="related">
+										<span class="component-title">
+											related
+										</span>
+										<span class="component-desc">
+											相关关键词推荐
+										</span>
+									</label>
+								</div>
+								<div class="clearfix">
+									<input type="checkbox" data-dependencies="core,searchbar" class="ui-widget-content" name="searchbar-static" id="static" checked="checked"/>
+									<label class="clearfix" title="" for="static">
+										<span class="component-title">
+											static
+										</span>
+										<span class="component-desc">
+											静态关键词推荐、历史搜索
+										</span>
+									</label>
+								</div>
+								<div class="clearfix">
+									<input type="checkbox" data-dependencies="core,searchbar" class="ui-widget-content" name="searchbar-dynamic" id="dynamic" checked="checked"/>
+									<label class="clearfix" title="" for="dynamic">
+										<span class="component-title">
+											dynamic
+										</span>
+										<span class="component-desc">
+											动态关键词匹配（自动完成）
+										</span>
+									</label>
+								</div>
+							</div>
 					</div>
 					
-					<div class="ui-widget ui-widget-content component-group clearfix">
-						<div class="component-group-desc">
-							<h3>
-								Sundry
-							</h3>
-						</div>
-						<div class="component-group-list">
-							<div class="clearfix">
-								<input type="checkbox" data-dependencies="core,sundry" class="ui-widget-content" name="sundry-anchor" id="anchor" checked="checked"/>
-								<label class="clearfix" title="" for="anchor">
-									<span class="component-title">
-										anchor
-									</span>
-									<span class="component-desc">
-										文字链接模块
-									</span>
-								</label>
-							</div>
-							<div class="clearfix">
-								<input type="checkbox" data-dependencies="core,sundry,searchbar" class="ui-widget-content" name="sundry-action" id="action" checked="checked"/>
-								<label class="clearfix" title="" for="action">
-									<span class="component-title">
-										action
-									</span>
-									<span class="component-desc">
-										按扭链接模块
-									</span>
-								</label>
-							</div>
-							<div class="clearfix">
-								<input type="checkbox" data-dependencies="core,sundry" class="ui-widget-content" name="sundry-extend" id="extend" checked="checked"/>
-								<label class="clearfix" title="" for="extend">
-									<span class="component-title">
-										extend
-									</span>
-									<span class="component-desc">
-										自定义扩展模块
-									</span>
-								</label>
-							</div>
-						</div>
 					</div>
 					
-					
-					<div class="ui-widget ui-widget-content component-group clearfix">
-						<div class="component-group-desc">
-							<h3>
-								Beacon
-							</h3>
-						</div>
-						<div class="component-group-list">
-							<div class="clearfix">
-								<input type="checkbox" data-dependencies="core,beacon" class="ui-widget-content" name="beacon-user" id="user" checked="checked"/>
-								<label class="clearfix" title="" for="user">
-									<span class="component-title">
-										user
-									</span>
-									<span class="component-desc">
-										用户信息模块
-									</span>
-								</label>
-							</div>
-							<div class="clearfix">
-								<input type="checkbox" data-dependencies="core,beacon" class="ui-widget-content" name="beacon-nav" id="nav" checked="checked"/>
-								<label class="clearfix" title="" for="nav">
-									<span class="component-title">
-										nav
-									</span>
-									<span class="component-desc">
-										灯塔导航模块
-									</span>
-								</label>
-							</div>
-						</div>
-					</div>
-					
-					
-					<div class="ui-widget ui-widget-content component-group clearfix">
-						<div class="component-group-desc">
-							<h3>
-								Searchbar
-							</h3>
-						</div>
-						<div class="component-group-list">
-							<div class="clearfix">
-								<input type="checkbox" data-dependencies="core,searchbar" class="ui-widget-content" name="searchbar-advanced" id="advanced" checked="checked"/>
-								<label class="clearfix" title="" for="advanced">
-									<span class="component-title">
-										advanced
-									</span>
-									<span class="component-desc">
-										高级搜索
-									</span>
-								</label>
-							</div>
-							<div class="clearfix">
-								<input type="checkbox" data-dependencies="core,searchbar" class="ui-widget-content" name="searchbar-type" id="type" checked="checked"/>
-								<label class="clearfix" title="" for="type">
-									<span class="component-title">
-										type
-									</span>
-									<span class="component-desc">
-										搜索类型选择，默认提供Product、Supplier、Buyer三种搜索类型的切换。
-									</span>
-								</label>
-							</div>
-							<div class="clearfix">
-								<input type="checkbox" data-dependencies="core,searchbar" class="ui-widget-content" name="searchbar-related" id="related" checked="checked"/>
-								<label class="clearfix" title="" for="related">
-									<span class="component-title">
-										related
-									</span>
-									<span class="component-desc">
-										相关关键词推荐
-									</span>
-								</label>
-							</div>
-							<div class="clearfix">
-								<input type="checkbox" data-dependencies="core,searchbar" class="ui-widget-content" name="searchbar-static" id="static" checked="checked"/>
-								<label class="clearfix" title="" for="static">
-									<span class="component-title">
-										static
-									</span>
-									<span class="component-desc">
-										静态关键词推荐、历史搜索
-									</span>
-								</label>
-							</div>
-							<div class="clearfix">
-								<input type="checkbox" data-dependencies="core,searchbar" class="ui-widget-content" name="searchbar-dynamic" id="dynamic" checked="checked"/>
-								<label class="clearfix" title="" for="dynamic">
-									<span class="component-title">
-										dynamic
-									</span>
-									<span class="component-desc">
-										动态关键词匹配（自动完成）
-									</span>
-								</label>
-							</div>
-						</div>
 				</div>
 				<div class="download-builder-header">
 					<h2>
@@ -334,168 +340,12 @@
 			</form>
 		</div>
 	</div>
-	</div>
 	<script src="jquery.min.js"></script>
 	<script src="jquery-ui-1.9.2.custom.js"></script>
 	<script src="jquery.form.js"></script>
 	<script src="download.js"></script>
     <script src="javascript/object2string.js"></script>
-	<script>
-		$(function() {
-			$( ".ui-button" ).button();
-		});
-	
-		// wait for the DOM to be loaded 
-		(function($) {
-			var form = $('#download-form'),
-				formArray = Array;
-			form.submit(builde);
-			
-			if ($.browser.msie) {
-				$('input:radio').click(function () {
-					this.blur();
-					this.focus();
-				});
-			}
-			
-			$("#ischange").change(function() {
-			     
-			}); 
-			
-			$('.btn-builde').on('click',function(){
-				builde(true);
-			});
-			$('.btn-cms-code').on('click',function(){
-				builde(false);
-				alert('cms');
-			});
-			$('.btn-vm-code').on('click',function(){
-				builde(false);
-				alert('vm');
-			});
-			
-			'component-group'
-			
-			function builde( reload ){
-				headerConfig = {};
-				formArray = form.formToArray();
-				layout = getFiledByName('layout').value;
-				if (getFiledByName('core').value !== 'on') {
-					alert('empty');
-				} else {
-					buiderConfig();
-				}
-				console.log(layout);
-				//console.log(JSON.stringify(headerConfig, null, '\t'));
-				//window.open(document.all.ifrmname.src,'header-view-iframe','')
-				if( reload == null ||reload == true ){
-					getIframeDocument(frames['header-view-iframe']).location.reload();
-				}
-				return false;
-			}
-			function getFiledByName(name){
-				var resval = null;
-				formArray.forEach(function(item,index){
-					if( item.name === name ){
-						resval = item;
-					}
-				});
-				return resval;
-			}
-			function getIframeDocument(element) {  
-				return  element.contentDocument || element.contentWindow.document;  
-			};  
-			function getGroupFields(name) {
-				var arr = $.grep(formArray,
-					function(item, i) {
-						return (item.value === 'on' && item.name.indexOf(name) > -1);
-					});
-				return arr; //arr.length === 0 ? null : arr;
-			}
-			function getGroupFieldObject(groupFields, keys) {
-				var newArr = [],
-					newGroupFields = $.map(groupFields,
-						function(item, i) {
-							item.data = (i > 0 ? item.name.replace(keys[0] + '-', '') : item.name);
-							return item;
-						}),
-					arr = $.grep(newGroupFields,
-						function(item, i) {
-							return keys.indexOf(item.data) > -1;
-						}),
-					son = [];
-				arr.forEach(function(item, i) {
-					newArr.push(item);
-					if (i > 0) {
-						son.push(item.data);
-					}
-				});
-
-				return {
-					all: newArr,
-					son: son,
-					count: newArr.length
-				};
-			}
-			function getCustemFileds(){
-				var arr = $.grep(formArray,
-					function(item, i) {
-						//排除initComplete
-						return (item.type ==="text" && item.name.indexOf('initComplete') < 0);
-					});
-				return arr;
-			}
-			function buiderConfig() {
-				addModConfig(['sundry', 'anchor', 'action', 'extend']);
-				addModConfig(['beacon', 'user', 'nav']);
-				addModConfig(['searchbar', 'type', 'static', 'dynamic', 'advanced', 'related']);
-				
-				addCustemConfig();
-				/*addConfig( 'initComplete', function(beacon, sundry, searchbar){
-						sundry.extend.html('<h2>Extend</h2>');
-						searchbar.addField('key0', 'val0');
-					}.toString());*/
-			}
-			function addCustemConfig( ){
-				var fieldArray = getCustemFileds(),
-					val = '';
-				fieldArray.forEach(function( item, index){
-					val = item.value;
-					if( val !== ''){
-						addConfig(item.name,val);
-					}
-				});
-			}
-			function addModConfig(keys) {
-				var groupName = keys[0],
-				fields = getGroupFields(groupName),
-				data = getGroupFieldObject(fields, keys);
-				if (data.count === 0) {
-                    addConfig('mod.' + groupName, null);
-                } else if (data.count === 1) {
-					addConfig('mod.' + groupName, []);
-				} else if (data.count > 1 && (keys.length - 1 !== data.son.length)) {
-					addConfig('mod.' + groupName, data.son);
-				}
-			}
-			function addConfig(path, value) {
-				var p = path.split('.'),
-				count = p.length,
-				o = headerConfig,
-				item;
-				for (var i = 0; i < count - 1; i++) {
-					item = p[i];
-					if (!o.hasOwnProperty(item)) {
-						o[p[i]] = {};
-						o = o[p[i]];
-					} else {
-						o = o[p[i]];
-					}
-				}
-				o[p[i]] = value;
-			}
-		})(jQuery);
-	</script>
+    <script src="builde.js"></script>
 </body>
 
 </html>
