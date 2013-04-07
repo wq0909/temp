@@ -1,13 +1,17 @@
 .page{
 	margin:0;
 	font: 62.5% "Trebuchet MS", sans-serif;
+	width:auto;
 }
 hr{ 
 	height:4px; 
 	background-color:#ddd;
 	border:none;
 }
-
+button[disabled], input[disabled],textarea[disabled]{
+    background-color:#eee !important;
+    box-shadow:none;
+}
 
 
 /* jqueryui.com site overrides for DB */
@@ -37,9 +41,7 @@ hr{
 
 #download-builder-content input[type="text"],
 #download-builder-content textarea {
-	margin: 0;
 	min-width: 0;
-	padding: 0;
 }
 
 /* DB application styles */
@@ -53,14 +55,12 @@ hr{
 #download-builder input,
 #download-builder select,
 #download-builder textarea {
-	font-size: 15px;
+	font-size: 13px;
 	line-height: 20px;
 }
 #download-builder * {
 	color: #333;
 	font-family: "Trebuchet MS","微软雅黑",Verdana,sans-serif;
-	margin: 0;
-	padding: 0;
 }
 #download-builder ul {
 	list-style-type: none;
@@ -253,10 +253,14 @@ hr{
     position: relative;
 }
 #download-builder .advanced-settings input {
-    width: 125px;
+    width: 400px;
+}
+#download-builder .advanced-settings textarea {
+    width: 400px;
 }
 #download-builder .advanced-settings label {
     margin-top: 10px;
+    font-size: 12px;
 }
 #download-builder .advanced-settings label a {
     position: absolute;

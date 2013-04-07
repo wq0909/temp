@@ -9,12 +9,12 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<title>
-		Download Builder | jQuery UI
+		Builder Header
 	</title>
-	<meta name="author" content="The jQuery Project - jQuery.org">
-	<meta name="description" content="jQuery: The Write Less, Do More, JavaScript Library">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-	<link rel="pingback" href="http://jqueryui.com/xmlrpc.php" />
+	<link rel="stylesheet" href="http://style.aliunicorn.com/css??/6v/apollo/core/core-sc.css" media="screen" />
+	<link rel="stylesheet" href="http://style.aliunicorn.com/css??/6v/apollo/mod/textfield/textfield-sc.css" media="screen" />
+
 	<link rel="stylesheet" href="jquery-ui-1.9.2.custom.css">
 	<link rel="stylesheet" href="download-new.css">
 	<script>
@@ -292,43 +292,43 @@
 							<label for="searchbar-placeholder">
 								placeholder(搜索框提示， 默认值：Please input a keyword ):
 							</label>
-							<input type="text" data-dependencies="core,searchbar" name="searchbar.placeholder" value="" id="searchbar-placeholder" />
+							<input type="text" class="ui-textfield ui-textfield-system ui-widget-custom" data-dependencies="core,searchbar" data-type="string" name="searchbar.placeholder" value="" id="searchbar-placeholder" />
 							
 							<label for="searchbar-currentKeyword">
 								当前搜索关键字:
 							</label>
-							<input type="text" data-dependencies="core,searchbar" name="searchbar.keyword" value="" id="searchbar-currentKeyword" />
+							<input type="text" class="ui-textfield ui-textfield-system ui-widget-custom" data-dependencies="core,searchbar" data-type="string" name="searchbar.keyword" value="" id="searchbar-currentKeyword" />
 							
 							
 							<label for="searchbar-currentType">
 								当前搜索类型(默认值：searchbar type的第一个):
 							</label>
-							<input type="text" data-dependencies="core,searchbar,type" name="searchbar.currentType" value="" id="searchbar-currentType" />
+							<input type="text" class="ui-textfield ui-textfield-system ui-widget-custom" data-dependencies="core,searchbar,searchbar-type" data-type="enum{products,suppliers,buyers}" name="searchbar.currentType" value="" id="searchbar-currentType" />
 							
 							
 							<label for="initComplete-searchbar-setFormAction">
 								设置表单提交地址:
 							</label>
-							<input type="text" data-dependencies="core,searchbar" name="initComplete.searchbar.setFormAction" value="" id="initComplete-searchbar-setFormAction"/>
+							<input type="text" class="ui-textfield ui-textfield-system ui-widget-custom" data-dependencies="core,searchbar" data-type="string{url}" name="initComplete.searchbar.setFormAction" value="" id="initComplete-searchbar-setFormAction"/>
 							
 							
 							<label for="searchbar-data">
 								设置搜索类型:
 							</label>
-							<textarea type="text" data-dependencies="core,searchbar,type" name="searchbar.data" value="" id="searchbar-data" ></textarea>
+							<textarea type="text" class="ui-textfield ui-textfield-system ui-widget-custom" rows="7" style="height:auto;" data-dependencies="core,searchbar,searchbar-type" data-type="object" name="searchbar.data" value="" id="searchbar-data" ></textarea>
 							
 							
 							
 							<label for="searchbar-currentKeyword">
 								推荐词个性化推荐，限定在某个分类ID:
 							</label>
-							<input type="text" data-dependencies="core,searchbar,dynamic" name="searchbar.autoSuggestionCateId" value="" id="searchbar-autoSuggestionCateId" />
+							<input type="text" class="ui-textfield ui-textfield-system ui-widget-custom" data-dependencies="core,searchbar,searchbar-dynamic" data-type="number{int}" name="searchbar.autoSuggestionCateId" value="" id="searchbar-autoSuggestionCateId" />
 							
 							
 							<label for="searchbar-aisnServer">
 								aisn server URL(默认值：http://www.alibaba.com):
 							</label>
-							<input type="text" data-dependencies="core,searchbar" name="searchbar.aisnServer" value="" id="searchbar-aisnServer" />
+							<input type="text" class="ui-textfield ui-textfield-system ui-widget-custom" data-dependencies="core,searchbar" data-type="string{url}" name="searchbar.aisnServer" value="" id="searchbar-aisnServer" />
 							
 							
 						</div>
@@ -345,6 +345,7 @@
 	<script src="jquery.form.js"></script>
 	<script src="download.js"></script>
     <script src="javascript/object2string.js"></script>
+    <script src="javascript/string2object.js"></script>
     <script src="builde.js"></script>
 </body>
 

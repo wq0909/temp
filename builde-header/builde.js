@@ -25,7 +25,7 @@ $(function() {
 	});
 	$('.btn-cms-code').on('click',function(){
 		builde(false);
-		alert(O2S.stringify(headerConfig));
+		alert(printConfig());
 	});
 	$('.btn-vm-code').on('click',function(){
 		builde(false);
@@ -33,6 +33,28 @@ $(function() {
 	});
 	function main(){
 		loyoutChange();
+	}
+	function printConfig(){
+		
+		var output = [];
+		output.push( '选择头模版：');
+		if(layout=='normal'){
+			output.push('[common header normal]');
+		}else{
+			output.push('[common header full]');
+		}
+		output.push('\n<!--body适当的位置加入以下代码：-->');
+		
+		if(!$.isEmptyObject(headerConfig)){
+			output.push('<script>');
+			output.push('AE.define("common.header.config",function(){');
+			output.push('\treturn ');
+			output.push('{{headerconfig}}');
+			output.push('});');
+			output.push('</script>')
+		}
+		output.push('#parse(pageinfo.header)')
+		return output.join('\n').replace('\n'+'{{headerconfig}}',O2S.stringify(headerConfig,1));
 	}
 	function loyoutChange(){
 		formArray = form.formToArray();
@@ -54,7 +76,7 @@ $(function() {
 		} else {
 			buiderConfig();
 		}
-		console.log(layout);
+		//console.log(layout);
 		//console.log(JSON.stringify(headerConfig, null, '\t'));
 		//window.open(document.all.ifrmname.src,'header-view-iframe','')
 		if( reload == null ||reload == true ){
@@ -110,9 +132,24 @@ $(function() {
 		var arr = $.grep(formArray,
 			function(item, i) {
 				//排除initComplete
-				return (item.type ==="text" && item.name.indexOf('initComplete') < 0);
+				return ((item.type ==="text" || item.type==='textarea') && item.name.indexOf('initComplete') < 0);
 			});
 		return arr;
+	}
+	function getCustemFieldDataType( field ){
+		var dataType = $(field).data('type'),
+			resType = null,
+			typeConst = (new RegExp('\\w{(.*?)}')).exec(dataType);
+		$.each(['string','int','float','enum','object','array'],function(){
+			var item = this;
+			if( dataType.indexOf(item) === 0 ){
+				resType = {
+					type :  item,
+					const :  typeConst? typeConst.split(',') : null
+				}
+			}
+		})
+		return resType;
 	}
 	function buiderConfig() {
 		addModConfig(['sundry', 'anchor', 'action', 'extend']);
@@ -129,11 +166,30 @@ $(function() {
 	}
 	function addCustemConfig( ){
 		var fieldArray = getCustemFields(),
-			val = '';
+			val = '',
+			fieldType = null;
 		fieldArray.forEach(function( item, index){
 			val = item.value;
+			fieldType = getCustemFieldDataType(item);
 			if( val !== ''){
-				addConfig(item.name,val);
+				switch(fieldType){
+					case 'object':
+					case 'array':
+						val = S2O.objectify(val);
+					break;
+					case 'int':
+						val = parseInt(val);
+					break;
+					case 'float':
+						val = parseFloat(val)
+					break;
+					case 'string':
+					break;
+					case 'enum':
+					break;
+					default:;
+				}
+				addConfig(item.name, val);
 			}
 		});
 	}
@@ -157,11 +213,15 @@ $(function() {
 			funBuilde = [];
 		funBuilde.push('return function(beacon, sundry, searchbar){\n');
 		arr.forEach(function(item,index){
-			funBuilde.push('\t'+item.name.replace('initComplete.','')+'(\''+item.value+'\');\n');
+			if( item.value !== ''){
+				funBuilde.push('\t'+item.name.replace('initComplete.','')+'(\''+item.value+'\');\n');
+			}
 		});
 		//funBuilde.push('alert(beacon);');
 		funBuilde.push('};\n');
-		addConfig('initComplete',(new Function(funBuilde.join('')))());
+		if( funBuilde.length> 2 ){
+			addConfig('initComplete',(new Function(funBuilde.join('')))());
+		}
 	}
 	
 	function addConfig(path, value) {

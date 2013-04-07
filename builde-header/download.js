@@ -3,7 +3,9 @@
 
 	var dependencies = {},
 		dependents = {},
-		downloadJqueryuiHost = $( "#download-builder" ).data( "download-jqueryui-host" );
+		downloadJqueryuiHost = $( "#download-builder" ).data( "download-jqueryui-host" ),
+		allCustomText = $('#download-builder .ui-widget-custom'),
+		customDependents = {};
 
 	// rewrite form action for testing on staging
 	if ( /^stage\./.test( location.host ) ) {
@@ -20,8 +22,28 @@
 	function allGroup( referenceElement ) {
 		return $( referenceElement ).closest( ".component-group" ).find( ".component-group-list input[type=checkbox]" );
 	}
-
+	function _disable( elem, value ){
+		elem.each( function(){
+			var elem = $( this),
+				name = elem.attr( 'name' ),
+				deps = $(customDependents[name]);
+			
+			
+			//console.log(name);
+			//console.log(name,value);
+			//console.dir(customDependents);
+			if( deps ){
+				deps.prop( 'disabled',value ? '':'disaled' );
+				if(value){
+					deps.removeClass('disbled');
+				}else{
+					deps.addClass('disbled');
+				}
+			}
+		});
+	}
 	function _check( elem, value ) {
+		//console.log(elem,value);
 		elem.each(function() {
 			var elem = $( this ),
 				name = elem.attr( "name" );
@@ -111,8 +133,64 @@
 		} else {
 			_check( elem, value );
 		}
+		
+		_disable( elem, value );
 	}
-
+	function validata(){
+		function setValue( elem, value ){
+			//var tagname = elem
+			var nodename = elem.prop('nodeName');
+			switch(nodename){
+				case 'TEXTAREA':
+					elem.attr('value',value);
+					break;
+				case 'INPUT':
+					elem.attr('value',value);
+					break;
+				default:;
+			}
+		}
+		function getValue( elem ){
+			//var tagname = elem
+			var nodename = elem.prop('nodeName'),
+				retval = '';
+			switch(nodename){
+				case 'TEXTAREA':
+					retval = elem.attr('value');
+					break;
+				case 'INPUT':
+					retval = elem.attr('value');
+					break;
+				default:;
+			}
+			return retval;
+		}
+		allCustomText.on('blur',function( event ){
+			//alert($(this).attr('name'));
+			var elem = $(this),
+				fieldType = elem.data('type'),
+				target = $(event.target),
+				targetValue = getValue(target);
+			if(targetValue === ''){
+				return;
+			}
+			
+			switch(fieldType){
+				case 'object':
+					var obj = S2O.objectify( targetValue );
+					if(obj){
+						setValue( target, O2S.stringify(obj));
+					}else{
+						alert('类型有误');
+					}
+					break;
+				default:;
+					
+			}
+			
+		});
+	}
+	validata();
 	function downloadOnOff() {
 		if ( !allComponents().filter( ":checked" ).length && $( "#theme" ).val() === "none" ) {
 			$( "#download-builder input[type=submit]" ).prop( "disabled", true ).addClass( "ui-state-disabled" );
@@ -153,7 +231,23 @@
 			error: error
 		});
 	}
-
+	allCustomText.each(function(){
+		var text = $( this ),
+		    thisDependencies = text.data( 'dependencies' );
+		    if(!thisDependencies){
+		    	return;
+		    }
+		    thisDependencies = thisDependencies.split(',');
+			$.each( thisDependencies,function(){
+			    var dependecy = this,
+			        dependecyElem = $( '[name='+this+']' );
+			    if( !customDependents[ this ] ){
+			    	customDependents[ this ] = $();
+			    }
+			    customDependents[ this ] = customDependents[ this ].add( text );
+			});
+	});
+	
 	// Initializes dependencies and dependents auxiliary variables.
 	$( "#download-builder input[type=checkbox]" ).each(function() {
 		var checkbox = $( this ),
@@ -191,7 +285,23 @@
 			check( event, $( this ), $( this ).prop( "checked" ) );
 		}
 	});
-
+	//依赖说明文案
+	$('input').add($('textarea')).each(function(){
+		var input = $(this),
+			idForInput = input.attr('id');
+		if( idForInput ){
+			var label = $('label[for='+idForInput+']'),
+				descElem = label.children('.component-desc'),
+				dependency = input.data('dependencies'),
+				type = input.data('type');
+			if(descElem.length>0 && dependency){
+				descElem.html(descElem.html()+' #['+dependency+']' +(type?' @['+type+']':''));
+			}else if(label.length>0 && dependency){
+				label.html(label.html()+' #['+dependency+']' +(type?' @['+type+']':''));
+			}
+			
+		}
+	});
 	// Loads theme section.
 	themeFetch(function( themeSection ) {
 		$( "#download-builder .components" ).after( themeSection );
