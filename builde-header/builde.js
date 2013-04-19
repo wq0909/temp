@@ -39,7 +39,7 @@ $(function() {
 		var output = [];
 		output.push( '选择头模版：');
 		if(layout=='normal'){
-			output.push('[common header normal]');
+			output.push('[common_header normal]');
 		}else{
 			output.push('[common header full]');
 		}
@@ -53,7 +53,7 @@ $(function() {
 			output.push('});');
 			output.push('</script>')
 		}
-		output.push('#parse(pageinfo.header)')
+		output.push('#parse("$pageinfo.header")')
 		return output.join('\n').replace('\n'+'{{headerconfig}}',O2S.stringify(headerConfig,1));
 	}
 	function loyoutChange(){
@@ -137,7 +137,7 @@ $(function() {
 		return arr;
 	}
 	function getCustemFieldDataType( field ){
-		var dataType = $(field).data('type'),
+		var dataType = $('[name="'+field.name+'"]').data('type'),
 			resType = null,
 			typeConst = (new RegExp('\\w{(.*?)}')).exec(dataType);
 		$.each(['string','int','float','enum','object','array'],function(){
@@ -145,7 +145,7 @@ $(function() {
 			if( dataType.indexOf(item) === 0 ){
 				resType = {
 					type :  item,
-					const :  typeConst? typeConst.split(',') : null
+					const :  typeConst? typeConst[1].split(',') : null
 				}
 			}
 		})
@@ -172,7 +172,7 @@ $(function() {
 			val = item.value;
 			fieldType = getCustemFieldDataType(item);
 			if( val !== ''){
-				switch(fieldType){
+				switch(fieldType.type){
 					case 'object':
 					case 'array':
 						val = S2O.objectify(val);
