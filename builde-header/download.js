@@ -295,9 +295,9 @@
 				dependency = input.data('dependencies'),
 				type = input.data('type');
 			if(descElem.length>0 && dependency){
-				descElem.html(descElem.html()+' #['+dependency+']' +(type?' @['+type+']':''));
+				descElem.html(descElem.html()+' <code>#['+dependency+']' +(type?' @['+type+']':'')+'</code>');
 			}else if(label.length>0 && dependency){
-				label.html(label.html()+' #['+dependency+']' +(type?' @['+type+']':''));
+				label.html(label.html()+' <code>#['+dependency+']' +(type?' @['+type+']':'') +'</code>');
 			}
 			
 		}

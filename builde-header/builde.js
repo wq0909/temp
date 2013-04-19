@@ -24,11 +24,12 @@ $(function() {
 		builde(true);
 	});
 	$('.btn-cms-code').on('click',function(){
-		builde(false);
+	    //builde(false);
+		builde(true);
 		alert(printConfig());
 	});
 	$('.btn-vm-code').on('click',function(){
-		builde(false);
+		builde(true);
 		alert('vm');
 	});
 	function main(){
@@ -39,9 +40,9 @@ $(function() {
 		var output = [];
 		output.push( '选择头模版：');
 		if(layout=='normal'){
-			output.push('[common_header normal]');
+			output.push('[2012新版header normal]');
 		}else{
-			output.push('[common header full]');
+			output.push('[2012新版header full]');
 		}
 		output.push('\n<!--body适当的位置加入以下代码：-->');
 		
@@ -144,7 +145,7 @@ $(function() {
 			var item = this;
 			if( dataType.indexOf(item) === 0 ){
 				resType = {
-					type :  item,
+					type :  item.toString(),
 					const :  typeConst? typeConst[1].split(',') : null
 				}
 			}
@@ -172,8 +173,12 @@ $(function() {
 			val = item.value;
 			fieldType = getCustemFieldDataType(item);
 			if( val !== ''){
+			    console.dir(fieldType);
+                console.dir(val);
 				switch(fieldType.type){
 					case 'object':
+                        val = S2O.objectify(val);
+                    break;
 					case 'array':
 						val = S2O.objectify(val);
 					break;
