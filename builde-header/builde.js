@@ -95,8 +95,8 @@ $(function() {
 		return resval;
 	}
 	function getIframeDocument(element) {  
-		return  element.contentDocument || element.contentWindow.document;  
-	};  
+		return  element.document || element.contentDocument || element.contentWindow.document;  
+	}
 	function getGroupFields(name) {
 		var arr = $.grep(formArray,
 			function(item, i) {

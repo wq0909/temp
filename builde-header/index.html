@@ -170,21 +170,29 @@
                                         <input type="text" class="ui-textfield ui-textfield-system ui-widget-custom" data-dependencies="core,searchbar" data-type="string" name="searchbar.placeholder" value="" id="searchbar-placeholder" />
                                         </td>
                                         <td class="ui-table-content">搜索框提示， 默认值：Please input a keyword</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td class="ui-table-title"><label for="searchbar-sundry-extend-html"> 扩展区域: </label>
+                                        <input type="text" class="ui-textfield ui-textfield-system ui-widget-custom" data-dependencies="core,sundry" data-type="string" name="initComplete.sundry.extend.html" value="" id="searchbar-sundry-extend-html" />
+                                        </td>
+                                        <td class="ui-table-content">如:</td>
+                                    </tr>
                                     <tr>
                                         <td class="ui-table-title"><label for="searchbar-currentKeyword"> 当前搜索关键字: </label>
                                         <input type="text" class="ui-textfield ui-textfield-system ui-widget-custom" data-dependencies="core,searchbar" data-type="string" name="searchbar.keyword" value="" id="searchbar-currentKeyword" />
                                         </td>
-                                        <td class="ui-table-content"></td>
+                                        <td class="ui-table-content"></td></tr>
                                     <tr>
                                         <td class="ui-table-title"><label for="searchbar-currentType"> 当前搜索类型: </label>
                                         <input type="text" class="ui-textfield ui-textfield-system ui-widget-custom" data-dependencies="core,searchbar,searchbar-type" data-type="enum{products,suppliers,buyers}" name="searchbar.currentType" value="" id="searchbar-currentType" />
                                         </td>
-                                        <td class="ui-table-content">默认值：searchbar type的第一个</td>
+                                        <td class="ui-table-content">默认值：searchbar type的第一个</td></tr>
                                     <tr>
                                         <td class="ui-table-title"><label for="initComplete-searchbar-setFormAction"> 设置表单提交地址: </label>
                                         <input type="text" class="ui-textfield ui-textfield-system ui-widget-custom" data-dependencies="core,searchbar" data-type="string{url}" name="initComplete.searchbar.setFormAction" value="" id="initComplete-searchbar-setFormAction"/>
                                         </td>
-                                        <td class="ui-table-content"></td>
+                                        <td class="ui-table-content"></td></tr>
                                     <tr>
                                         <td class="ui-table-title"><label for="searchbar-data"> 设置搜索类型: </label>
                                         	<textarea type="text" class="ui-textfield ui-textfield-system ui-widget-custom" rows="7" style="height:auto;" data-dependencies="core,searchbar,searchbar-type" data-type="object" name="searchbar.data" value="" id="searchbar-data" ></textarea></td>
@@ -207,12 +215,12 @@
 	}
 ]
 </pre>
-                                        </td>
+                                        </td></tr>
                                     <tr>
                                         <td class="ui-table-title"><label for="searchbar-currentKeyword"> 推荐词个性化推荐，限定在某个分类ID: </label>
                                         <input type="text" class="ui-textfield ui-textfield-system ui-widget-custom" data-dependencies="core,searchbar,searchbar-dynamic" data-type="number{int}" name="searchbar.autoSuggestionCateId" value="" id="searchbar-autoSuggestionCateId" />
                                         </td>
-                                        <td class="ui-table-content"></td>
+                                        <td class="ui-table-content"></td></tr>
                                     <tr>
                                         <td class="ui-table-title"><label for="searchbar-aisnServer"> aisn server URL: </label>
                                         <input type="text" class="ui-textfield ui-textfield-system ui-widget-custom" data-dependencies="core,searchbar" data-type="string{url}" name="searchbar.aisnServer" value="" id="searchbar-aisnServer" />
