@@ -16,18 +16,14 @@
         <link rel="stylesheet" href="jquery-ui-1.9.2.custom.css">
         <link rel="stylesheet" href="download-new.css">
         <script>
-            var headerConfig = null, layout = 'normal';
+            var headerConfig = null, apollo = 'normal';
         </script>
     </head>
     <body class="jquery-ui page">
         <div id="header-view">
             <div class="header-view-fixed">
-                <iframe src="header.html?hoz-debugger" id="header-view-iframe" frameborder="no" width="100%" height="131px"
-                marginheight="0" marginwidth="0" scrolling="no"></iframe>
+                <iframe src="header.html?hoz-debugger" id="header-view-iframe" frameborder="no" width="100%" height="131px" marginheight="0" marginwidth="0" scrolling="no"></iframe>
                 <div class="header-view-ctrl">
-                    <button class="ui-button btn-builde">
-                        Builde
-                    </button>
                     <button class="ui-button btn-cms-code">
                         CMS代码
                     </button>
@@ -42,17 +38,35 @@
             <hr />
             <div id="download-builder">
                 <form id="download-form" method="POST" action="#">
-                    <div class="download-builder-header layout-area">
-                        <h2> Layout </h2>
+                    <div class="download-builder-header apollo-area">
+                        <h2> 前端框架 </h2>
                         <div class="field-pair">
                             <label class="clearfix">
-                                <input type="radio" id="layout-full" name="layout" value="full">
-                                <span class="layout-title"> Full </span> <span class="layout-label"> 类似首页（搜索功能样式的差异） </span> </label>
+                                <input type="radio" name="js-framework" value="hoz">
+                                <span class="apollo-title"> Hoz Or YUI </span> <span class="apollo-label"> 猴子或YUI2 </span> </label>
                         </div>
                         <div class="field-pair">
                             <label class="clearfix">
-                                <input type="radio" checked="checked" name="layout" value="normal">
-                                <span class="layout-title"> Normal </span> <span class="layout-label"> 类似频道页面（推荐使用） </span> </label>
+                                <input type="radio" checked="checked" name="js-framework" value="atom">
+                                <span class="apollo-title"> Atom </span> <span class="apollo-label"> 最新前端框架（推荐使用） </span> </label>
+                        </div>
+                    </div>
+                    <div class="download-builder-header apollo-area">
+                        <h2> Apollo DPL </h2>
+                        <div class="field-pair">
+                            <label class="clearfix">
+                                <input type="radio" id="apollo-full" name="apollo" value="full">
+                                <span class="apollo-title"> Full </span> <span class="apollo-label"> 类似首页（搜索功能样式的差异） </span> </label>
+                        </div>
+                        <div class="field-pair">
+                            <label class="clearfix">
+                                <input type="radio" id="apollo-normal" checked="checked" name="apollo" value="normal">
+                                <span class="apollo-title"> Normal </span> <span class="apollo-label"> 类似频道页面（推荐使用） </span> </label>
+                        </div>
+                        <div class="field-pair">
+                            <label class="clearfix">
+                                <input type="radio" id="apollo-ma" name="apollo" value="myalibaba">
+                                <span class="apollo-title"> MyAlibaba </span> <span class="apollo-label"> myalibaba </span> </label>
                         </div>
                     </div>
 
@@ -167,7 +181,7 @@
                                 <table class="ui-table">
                                     <tr>
                                         <td class="ui-table-title"><label for="searchbar-placeholder"> placeholder: </label>
-                                        <input type="text" class="ui-textfield ui-textfield-system ui-widget-custom" data-dependencies="core,searchbar" data-type="string" name="searchbar.placeholder" value="" id="searchbar-placeholder" />
+                                        <input type="text" class="ui-textfield ui-textfield-system ui-widget-custom" data-dependencies="apollo-full,core,searchbar" data-type="string" name="searchbar.placeholder" value="" id="searchbar-placeholder" />
                                         </td>
                                         <td class="ui-table-content">搜索框提示， 默认值：Please input a keyword</td>
                                     </tr>
@@ -239,13 +253,14 @@
 
             <img src="images/new_header.png"/>
         </div>
-        <script src="jquery.min.js"></script>
-        <script src="jquery-ui-1.9.2.custom.js"></script>
-        <script src="jquery.form.js"></script>
-        <script src="download.js"></script>
-        <script src="javascript/object2string.js"></script>
-        <script src="javascript/string2object.js"></script>
-        <script src="builde.js"></script>
+        <script src="jquery.min.js" type="text/javascript"></script>
+        <script src="jquery-ui-1.9.2.custom.js" type="text/javascript"></script>
+        <script src="jquery.form.js" type="text/javascript"></script>
+        <script src="javascript/lib/beautify.js" type="text/javascript"></script>
+        <script src="download.js" type="text/javascript"></script>
+        <script src="javascript/object2string.js" type="text/javascript"></script>
+        <script src="javascript/string2object.js" type="text/javascript"></script>
+        <script src="builde.js" type="text/javascript"></script>
     </body>
 
 </html>

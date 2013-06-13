@@ -171,15 +171,15 @@
 <script>
 AE.defer(function(){
 	var config = parent.window['headerConfig'],
-		layout = parent.window['layout'];
-	console.dir(config);
+		apollo = parent.window['apollo'];
+	console.dir(JSON.stringify(config));
 	AE.use(['common.header','dom'], function(header,dom){
 		var doc = dom.Document(),
 			eleHeader = doc.byId('header2012'),
 			eleSearchbar = doc.byId('mod-searchbar');
 		
-		if( layout){
-			if(layout === 'normal'){
+		if( apollo){
+			if(apollo === 'normal'){
 				eleHeader.addClass('ui-header-normal ui-header-normal-beacon');
 				eleSearchbar.addClass('ui-searchbar-normal ui-header-normal-searchbar');
 			}else{

@@ -16,51 +16,66 @@ $(function() {
 		});
 	}
 	
-	$("input:radio[name=layout]").change(function() {
-		loyoutChange();
+	form.change(function(){
+		builde(true);
+	});
+	$("input:radio[name=js-framework]").change(function() {
+		setButtonState();
+	});
+	$("input:radio[name=apollo]").change(function() {
+		setButtonState();
+		apolloChange();
 	});
 	
-	$('.btn-builde').on('click',function(){
-		builde(true);
-	});
+	function setButtonState(){
+		var fields = form.formToArray(),
+			apollo = fields.filter(function(item){ if(item.name==='apollo') return item.value; })[0].value,
+			framework = fields.filter(function(item){ if(item.name==='js-framework') return item.value; })[0].value;
+		if( apollo ==='myalibaba' || framework === 'atom' ){
+			$('.btn-cms-code').hide();
+			$('.btn-vm-code').show();
+		}else{
+			$('.btn-cms-code').show();
+			$('.btn-vm-code').show();
+		}
+	}
+	
+	
 	$('.btn-cms-code').on('click',function(){
-	    //builde(false);
-		builde(true);
 		alert(printConfig());
 	});
 	$('.btn-vm-code').on('click',function(){
-		builde(true);
 		alert('vm');
 	});
 	function main(){
-		loyoutChange();
+		apolloChange();
 	}
 	function printConfig(){
-		
 		var output = [];
-		output.push( '选择头模版：');
-		if(layout=='normal'){
-			output.push('[2012新版header normal]');
+		output.push( '(1) 选择头模版');
+		if(apollo=='normal'){
+			output.push('"2012新版header normal"');
 		}else{
-			output.push('[2012新版header full]');
+			output.push('"2012新版header full"');
 		}
-		output.push('\n<!--body适当的位置加入以下代码：-->');
+		output.push('\n(2) body适当的位置加入以下代码');
 		
 		if(!$.isEmptyObject(headerConfig)){
 			output.push('<script>');
-			output.push('AE.define("common.header.config",function(){');
-			output.push('\treturn ');
-			output.push('{{headerconfig}}');
-			output.push('});');
+			var outputJs = [];
+			outputJs.push('AE.define("common.header.config",function(){');
+			outputJs.push('		return {{headerconfig}};');
+			outputJs.push('});');
+			output.push(js_beautify(outputJs.join('').replace('{{headerconfig}}',O2S.stringify(headerConfig))));
 			output.push('</script>')
 		}
 		output.push('#parse("$pageinfo.header")')
-		return output.join('\n').replace('\n'+'{{headerconfig}}',O2S.stringify(headerConfig,1));
+		return output.join('\n');
 	}
-	function loyoutChange(){
+	function apolloChange(){
 		formArray = form.formToArray();
-	     console.log(getFieldByName('layout').value);
-	     if(getFieldByName('layout').value === 'full'){
+	     console.log(getFieldByName('apollo').value);
+	     if(getFieldByName('apollo').value === 'full'){
 	     	$('input.ui-widget-content:checkbox').attr('checked','checked')
 	     	componentArea.hide();
 	     }else{
@@ -71,17 +86,23 @@ $(function() {
 	function builde( reload ){
 		headerConfig = {};
 		formArray = form.formToArray();
-		layout = getFieldByName('layout').value;
+		apollo = getFieldByName('apollo').value;
 		if (getFieldByName('core') && getFieldByName('core').value !== 'on') {
 			alert('empty');
 		} else {
 			buiderConfig();
 		}
-		//console.log(layout);
+		//console.log(apollo);
 		//console.log(JSON.stringify(headerConfig, null, '\t'));
 		//window.open(document.all.ifrmname.src,'header-view-iframe','')
-		if( reload == null ||reload == true ){
-			getIframeDocument(frames['header-view-iframe']).location.reload();
+		var frame = getIframeDocument(frames['header-view-iframe']);
+		if( apollo === 'myalibaba' ){
+			frame.location.href = 'header-ma.html';
+		}else{
+			frame.location.href = 'header.html?hoz-debugger';
+		}
+		if( reload == null || reload == true ){
+			//getIframeDocument(frames['header-view-iframe']).location.reload();
 		}
 		return false;
 	}
@@ -115,17 +136,17 @@ $(function() {
 				function(item, i) {
 					return keys.indexOf(item.data) > -1;
 				}),
-			son = [];
+			sonArr = [];
 		arr.forEach(function(item, i) {
 			newArr.push(item);
 			if (i > 0) {
-				son.push(item.data);
+				sonArr.push(item.data);
 			}
 		});
 
 		return {
 			all: newArr,
-			son: son,
+			son: sonArr,
 			count: newArr.length
 		};
 	}
@@ -216,14 +237,14 @@ $(function() {
 				return (item.name.indexOf('initComplete') === 0);
 			}),
 			funBuilde = [];
-		funBuilde.push('return function(beacon, sundry, searchbar){\n');
+		funBuilde.push('return function(beacon, sundry, searchbar){');
 		arr.forEach(function(item,index){
 			if( item.value !== ''){
-				funBuilde.push('\t'+item.name.replace('initComplete.','')+'(\''+item.value+'\');\n');
+				funBuilde.push(item.name.replace('initComplete.','')+'(\''+item.value+'\');');
 			}
 		});
 		//funBuilde.push('alert(beacon);');
-		funBuilde.push('};\n');
+		funBuilde.push('};');
 		if( funBuilde.length> 2 ){
 			addConfig('initComplete',(new Function(funBuilde.join('')))());
 		}

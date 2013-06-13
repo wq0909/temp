@@ -208,18 +208,18 @@ button[disabled], input[disabled],textarea[disabled]{
 	width: 73%;
 	float: left;
 }
-#download-builder .layout-area label > * {
+#download-builder .apollo-area label > * {
 	float: left;
 }
-#download-builder .layout-area label > input {
+#download-builder .apollo-area label > input {
 	margin: 0.5em 0.5em 0.5em 0;
 }
-#download-builder span.layout-title {
+#download-builder span.apollo-title {
 	font-size: 1.2em;
 	font-weight: bold;
 	margin: 0.5em 0.5em 0.5em 0;
 }
-#download-builder span.layout-label {
+#download-builder span.apollo-label {
 	color: #666666;
 	font-size: 1.1em;
 	margin: 0.5em 0;
