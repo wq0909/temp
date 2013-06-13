@@ -223,13 +223,6 @@
 	}
 
 	function themeFetch( success, error ) {
-		$.ajax( downloadJqueryuiHost + "/download/theme" + ( currSearch() ? "?" + currSearch() : "" ), {
-			dataType: "jsonp",
-			success: function( response ) {
-				success( response );
-			},
-			error: error
-		});
 	}
 	allCustomText.each(function(){
 		var text = $( this ),
