@@ -215,11 +215,12 @@
                 sundry.extend.html('<a class="ui-header-ma-logo" href="http://hz.my.alibaba.com">My Alibaba</a>');
             }
         };
-        if( $.isEmptyObject(config) ){
+        /*if( $.isEmptyObject(config) ){
             config = defConfig;
-        }
+        }*/
+        var conf = $.extend( defConfig, config );
         
-        header.run( config );
+        header.run( conf );
         headerEl.show();
     });
 </script>

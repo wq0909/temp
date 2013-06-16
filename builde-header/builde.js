@@ -6,7 +6,11 @@ $(function() {
 (function($) {
 	var form = $('#download-form'),
 		formArray = Array,
-		componentArea = $('div.download-builder-component');
+		componentArea = $('div.download-builder-component'),
+		sundryModArr = ['sundry', 'anchor', 'action', 'extend'],
+		beaconModArr = ['beacon', 'user', 'nav'],
+		searchbarModArr = ['searchbar', 'type', 'static', 'dynamic', 'advanced', 'related'];
+	
 	form.submit(builde);
 	
 	if ($.browser.msie) {
@@ -18,7 +22,15 @@ $(function() {
 	
 	form.change(function(){
 		builde(true);
+		buildeUrl();
 	});
+	function buildeUrl(){
+		var conf = $.extend({
+			apollo : apollo,
+			framework : framework
+		},headerConfig);
+		location.hash = encodeURIComponent(O2S.toStr(conf));
+	}
 	$("input:radio[name=js-framework]").change(function() {
 		setButtonState();
 	});
@@ -28,9 +40,9 @@ $(function() {
 	});
 	
 	function setButtonState(){
-		var fields = form.formToArray(),
-			apollo = fields.filter(function(item){ if(item.name==='apollo') return item.value; })[0].value,
-			framework = fields.filter(function(item){ if(item.name==='js-framework') return item.value; })[0].value;
+		var fields = form.formToArray();
+		apollo = fields.filter(function(item){ if(item.name==='apollo') return item.value; })[0].value,
+		framework = fields.filter(function(item){ if(item.name==='js-framework') return item.value; })[0].value;
 		if( apollo ==='myalibaba' || framework === 'atom' ){
 			$('.btn-cms-code').hide();
 			$('.btn-vm-code').show();
@@ -42,15 +54,117 @@ $(function() {
 	
 	
 	$('.btn-cms-code').on('click',function(){
-		alert(printConfig());
+		alert(printCMSConfig());
 	});
 	$('.btn-vm-code').on('click',function(){
-		alert('vm');
+		alert(printVMConfig());
 	});
+	
 	function main(){
+		fillData();
+		setButtonState();
 		apolloChange();
+		builde();
 	}
-	function printConfig(){
+	function fillData(){
+		var json = S2O.objectify( decodeURIComponent(location.hash.substr(1)) );
+		if( json && !$.isEmptyObject(json) ){
+			$.each(json,function(name,value){
+				if( name === 'mod' ){
+					$.each( value, function( subName,subValue){
+						var modArr = [];
+						switch(subName){
+							case 'sundry':
+								modArr = sundryModArr;
+								break;
+							case 'searchbar':
+								modArr = searchbarModArr;
+								break;
+							case 'beacon':
+								modArr = beaconModArr;
+								break;
+						}
+						var findArr = $.map(modArr,function(item,index){
+							if( index == 0 )
+								return '[name='+item+']';
+							else
+								return '[name='+subName+'-'+item+']';
+						});
+						if( subValue === null ){
+							$(findArr.join(',')).attr('checked',false);
+						}else if( subValue === undefined ){
+							$(findArr.join(',')).attr('checked',true);
+						}else if( subValue.length === 0){
+							$($.grep(findArr,function(item,index){return index>0;}).join(',')).attr('checked',false);
+						}else{
+							$($.map(modArr,function(item,index){
+								if( index > 0 && subValue.indexOf(item) ===-1 )
+									return '[name='+subName+'-'+item+']';
+							}).join(',')).attr('checked',false);	
+						}
+					});
+				}else if( name === 'framework' ){
+					$('[name=js-framework][value='+value+']').attr('checked',true);
+				}else if( name === 'apollo' ){
+					$('[name=apollo][value='+value+']').attr('checked',true);
+				}else if( $.type(value) ==='object' ){
+					$.each( value, function( subName,subValue){
+						if( $.type(subValue) === 'object' || $.type(subValue) === 'array' ){
+							subValue = O2S.stringify(subValue);
+						}
+						$('[name='+name+'\\.'+subName+']').val(subValue);
+					});
+				}else if( $.isFunction(value) ){
+					var codeArr = js_beautify(O2S.stringify(value)).split('\n');
+					codeArr.pop();
+					codeArr.shift();
+					codeArr = $.map( codeArr, function(item,index){
+						return $.trim( item );
+					});
+					$.each( codeArr,function( index,item ){
+						try{
+							var match = (new RegExp('^(.*?)\\(\'(.*?)\'\\)')).exec(item);
+							if( match && match.length>2 ){
+								var fieldName = name+'.'+match[1];
+								$('[name='+fieldName.replace( /\./g, '\\.' )+']').val(match[2]);
+							}
+						}catch(e){
+							
+						}
+						
+					});
+				}
+			})
+		}
+	}
+	function printVMConfig(){
+		var output = [];
+		
+		if(!$.isEmptyObject(headerConfig)){
+			output.push( '##在引用header之前加入以下代码');
+		}
+		debugger;
+		if( framework === 'hoz' ){
+			output.push(getHozHeaderConfig());
+		}else if( framework ==='atom' ){
+			output.push(getAtomHeaderConfig());
+		}
+		output.push( '##在vm加入共用模板');
+		var codeString = '$control.setTemplate("header/header2012.vm").setParameter("headerView", $headerView)';
+		
+		if( apollo === 'myalibaba'){
+			codeString = '$control.setTemplate("kinsoku:header.vm")';
+		}else if(apollo === 'normal'){
+			codeString += '.setParameter("apollo", "normal")';
+		}
+		
+		if( framework === 'atom' ){
+			codeString += '.setParameter("isAtom", true)';
+		}
+		output.push(codeString);
+		return output.join('\n');
+	}
+	function printCMSConfig(){
 		var output = [];
 		output.push( '(1) 选择头模版');
 		if(apollo=='normal'){
@@ -59,7 +173,25 @@ $(function() {
 			output.push('"2012新版header full"');
 		}
 		output.push('\n(2) body适当的位置加入以下代码');
-		
+		output.push(getHozHeaderConfig());
+		output.push('#parse("$pageinfo.header")')
+		return output.join('\n');
+	}
+	function getAtomHeaderConfig(){
+		var output = [];
+		if(!$.isEmptyObject(headerConfig)){
+			output.push('<script>');
+			var outputJs = [];
+			outputJs.push('seajs.use("js/6v/lib/icbu/gdata/gdata.js", function(gdata){');
+			outputJs.push('    gdata.define("sc-header-config", {{headerconfig}});');
+			outputJs.push('});');
+			output.push(js_beautify(outputJs.join('').replace('{{headerconfig}}',O2S.stringify(headerConfig))));
+			output.push('</script>')
+		}
+		return output.join('\n'); 
+	}
+	function getHozHeaderConfig(){
+		var output = [];
 		if(!$.isEmptyObject(headerConfig)){
 			output.push('<script>');
 			var outputJs = [];
@@ -69,14 +201,13 @@ $(function() {
 			output.push(js_beautify(outputJs.join('').replace('{{headerconfig}}',O2S.stringify(headerConfig))));
 			output.push('</script>')
 		}
-		output.push('#parse("$pageinfo.header")')
-		return output.join('\n');
+		return output.join('\n'); 
 	}
 	function apolloChange(){
 		formArray = form.formToArray();
-	     console.log(getFieldByName('apollo').value);
 	     if(getFieldByName('apollo').value === 'full'){
-	     	$('input.ui-widget-content:checkbox').attr('checked','checked')
+	     	$('input.ui-widget-content:checkbox').attr('checked','checked');
+	     	$('input[name=initComplete\\.sundry\\.extend\\.html]').val('');
 	     	componentArea.hide();
 	     }else{
 	     	componentArea.show();
@@ -92,9 +223,6 @@ $(function() {
 		} else {
 			buiderConfig();
 		}
-		//console.log(apollo);
-		//console.log(JSON.stringify(headerConfig, null, '\t'));
-		//window.open(document.all.ifrmname.src,'header-view-iframe','')
 		var frame = getIframeDocument(frames['header-view-iframe']);
 		if( apollo === 'myalibaba' ){
 			frame.location.href = 'header-ma.html';
@@ -174,9 +302,9 @@ $(function() {
 		return resType;
 	}
 	function buiderConfig() {
-		addModConfig(['sundry', 'anchor', 'action', 'extend']);
-		addModConfig(['beacon', 'user', 'nav']);
-		addModConfig(['searchbar', 'type', 'static', 'dynamic', 'advanced', 'related']);
+		addModConfig(sundryModArr);
+		addModConfig(beaconModArr);
+		addModConfig(searchbarModArr);
 		
 		addCustemConfig();
 		
@@ -194,8 +322,6 @@ $(function() {
 			val = item.value;
 			fieldType = getCustemFieldDataType(item);
 			if( val !== ''){
-			    console.dir(fieldType);
-                console.dir(val);
 				switch(fieldType.type){
 					case 'object':
                         val = S2O.objectify(val);

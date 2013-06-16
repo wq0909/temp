@@ -154,7 +154,7 @@
 	    </ul>
 	</div>
 	<div class="ui-searchbar-main">
-	    <input type="text" id="searchbar-keyword" class="ui-searchbar-keyword" name="SearchText" autocomplete="off"  x-webkit-speech="x-webkit-speech" x-webkit-grammar="builtin:translate" lang="en" />
+	    <input type="text" id="SearchTextIdx" class="ui-searchbar-keyword" name="SearchText" autocomplete="off"  x-webkit-speech="x-webkit-speech" x-webkit-grammar="builtin:translate" lang="en" />
 	    <div id="searchbar-related" class="ui-searchbar-related" style="display:none;"></div>
 	    <div id="searchbar-static" class="ui-searchbar-keyword-panel ui-searchbar-static" style="display:none;"></div>
 	    <div id="searchbar-dynamic" class="ui-searchbar-keyword-panel ui-searchbar-dynamic" style="display:none;"></div>
@@ -171,25 +171,34 @@
 <script>
 AE.defer(function(){
 	var config = parent.window['headerConfig'],
-		apollo = parent.window['apollo'];
-	console.dir(JSON.stringify(config));
-	AE.use(['common.header','dom'], function(header,dom){
-		var doc = dom.Document(),
-			eleHeader = doc.byId('header2012'),
-			eleSearchbar = doc.byId('mod-searchbar');
-		
-		if( apollo){
-			if(apollo === 'normal'){
-				eleHeader.addClass('ui-header-normal ui-header-normal-beacon');
-				eleSearchbar.addClass('ui-searchbar-normal ui-header-normal-searchbar');
-			}else{
-				eleSearchbar.addClass(' ui-searchbar-full ui-header-searchbar');
-			}
-			eleHeader.setStyle('display','block');
-		}
-		
-		header.init(config || {});
-	});
+		apollo = parent.window['apollo'],
+		framework = parent.window['framework'];
+	seajs.use('$',function($){
+	    headerEl = $('#header2012'),
+        searchbarEl = $('#mod-searchbar');
+        
+        if( apollo){
+            if(apollo === 'normal'){
+                headerEl.addClass('ui-header-normal ui-header-normal-beacon');
+                searchbarEl.addClass('ui-searchbar-normal ui-header-normal-searchbar');
+            }else{
+                searchbarEl.addClass(' ui-searchbar-full ui-header-searchbar');
+            }
+            headerEl.show();
+        }
+	})
+	if(framework === 'atom'){
+        seajs.use(['$', 'js/6v/biz/common/header/header-sc.js'], function($, header){
+            var conf = $.extend({
+                version : '1'
+            },config || {});
+            header.run( conf);
+        });
+	}else{
+    	AE.use(['common.header','dom'], function(header,dom){
+            header.init(config || {});
+    	});
+    }
 });
 </script>
 </body>
