@@ -54,10 +54,28 @@ $(function() {
 	
 	
 	$('.btn-cms-code').on('click',function(){
-		alert(printCMSConfig());
+		$( "#dialog" ).html('<pre>'+printCMSConfig()+'</pre>');
+		$( "#dialog" ).dialog({
+			modal: true,
+			width: 400,
+			buttons: {
+				Ok: function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		});
 	});
 	$('.btn-vm-code').on('click',function(){
-		alert(printVMConfig());
+		$( "#dialog" ).html('<pre>'+printVMConfig()+'</pre>');
+		$( "#dialog" ).dialog({
+			modal: true,
+			width: 400,
+			buttons: {
+				Ok: function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		});
 	});
 	
 	function main(){
@@ -143,7 +161,6 @@ $(function() {
 		if(!$.isEmptyObject(headerConfig)){
 			output.push( '##在引用header之前加入以下代码');
 		}
-		debugger;
 		if( framework === 'hoz' ){
 			output.push(getHozHeaderConfig());
 		}else if( framework ==='atom' ){
@@ -180,26 +197,26 @@ $(function() {
 	function getAtomHeaderConfig(){
 		var output = [];
 		if(!$.isEmptyObject(headerConfig)){
-			output.push('<script>');
+			output.push('< script>');
 			var outputJs = [];
 			outputJs.push('seajs.use("js/6v/lib/icbu/gdata/gdata.js", function(gdata){');
 			outputJs.push('    gdata.define("sc-header-config", {{headerconfig}});');
 			outputJs.push('});');
 			output.push(js_beautify(outputJs.join('').replace('{{headerconfig}}',O2S.stringify(headerConfig))));
-			output.push('</script>')
+			output.push('< /script>')
 		}
 		return output.join('\n'); 
 	}
 	function getHozHeaderConfig(){
 		var output = [];
 		if(!$.isEmptyObject(headerConfig)){
-			output.push('<script>');
+			output.push('< script>');
 			var outputJs = [];
 			outputJs.push('AE.define("common.header.config",function(){');
 			outputJs.push('		return {{headerconfig}};');
 			outputJs.push('});');
 			output.push(js_beautify(outputJs.join('').replace('{{headerconfig}}',O2S.stringify(headerConfig))));
-			output.push('</script>')
+			output.push('< /script>')
 		}
 		return output.join('\n'); 
 	}
