@@ -24,17 +24,18 @@ namespace ConsoleTest
 
              string output = TestUrl.sendUrl("https://login.alibaba.com/", ref cookie, headderColl);
 
-            output = TestUrl.sendUrl("https://login.alibaba.com/xman/xlogin.js?pd=alibaba&pageFrom=standardlogin&u_token=&xloginPassport=aliqatest01&xloginPassword=1227qa01aetest&dmtrack_pageid=79001dc26e4bd84051c7e1cf13f74ca14e713b5b05", ref cookie, headderColl);
+             output = TestUrl.sendUrl("https://login.alibaba.com/xman/xlogin.js?pd=alibaba&pageFrom=standardlogin&u_token=B634507bd7c342df39b6937541c3d3be5&xloginPassport=aliqatest01&xloginPassword=1227qa01aetest&dmtrack_pageid=73c5f09b6e4bd84051c8606513f76b890046df13bb", ref cookie, headderColl);
 
             var match = Regex.Match(output, ":\"(.*?)\"}$");
             string tokenString = match.Groups[1].Value;
 
-            headderColl.Add("Referer", "https://login.alibaba.com");
             output = TestUrl.sendUrl("https://passport.alipay.com/mini_apply_st.js?site=4&callback=window.xmanDealTokenCallback&token=" + tokenString, ref cookie, headderColl);
 
-            headderColl.Add("Referer", "https://login.alibaba.com");
-            output = TestUrl.sendUrl("https://login.alibaba.com/validateST.htm?st=" + tokenString + "&pd=alibaba&pageFrom=standardlogin&u_token=&xloginPassport=aliqatest01&xloginPassword=1227qa01aetest&dmtrack_pageid=79001dc26e4bd84051c7e1cf13f74ca14e713b5b05", ref cookie, 
-                headderColl);
+            match = Regex.Match(output, "\"st\":\"(.*?)\"},", RegexOptions.Multiline);
+            string st = match.Groups[1].Value;
+
+            //string st = Regex.Match( matchString, "^\"st\":\"(.*?)\"},$" ).Groups[1].Value;
+            output = TestUrl.sendUrl("https://login.alibaba.com/validateST.htm?st=" + st + "&pd=alibaba&pageFrom=standardlogin&u_token=B634507bd7c342df39b6937541c3d3be5&xloginPassport=aliqatest01&xloginPassword=1227qa01aetest&dmtrack_pageid=73c5f09b6e4bd84051c8606513f76b890046df13bb", ref cookie,  headderColl);
 
             Console.WriteLine(output);
 
@@ -93,7 +94,7 @@ namespace ConsoleTest
             foreach (Cookie c in response.Cookies)
             {
                 Console.WriteLine(c.Name + ":" + c.Value);
-                cookie.Add(c);
+                //cookie.Add(c);
             }
             
             // Display the content.
