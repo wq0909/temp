@@ -1,0 +1,185 @@
+﻿{
+    "root": [
+        {
+            "data": {
+                "id": "1", 
+                "nodeType": "name", 
+                "rules": [
+                    "country"
+                ], 
+                "showType": "country", 
+                "value": "原产地"
+            }
+        }, 
+        {
+            "data": {
+                "id": "2", 
+                "nodeType": "name", 
+                "rules": [
+                    "input_string"
+                ], 
+                "showType": "input_string", 
+                "value": "品牌"
+            }, 
+            "nodes": [
+                {
+                    "data": {
+                        "errorMessage": "", 
+                        "id": "", 
+                        "nodeType": "value", 
+                        "selected": "true", 
+                        "value": ""
+                    }
+                }
+            ]
+        }, 
+        {
+            "data": {
+                "id": "3", 
+                "nodeType": "name", 
+                "rules": [
+                    "input_string"
+                ], 
+                "showType": "input_string", 
+                "value": "型号"
+            }, 
+            "nodes": [
+                {
+                    "data": {
+                        "errorMessage": "", 
+                        "id": "", 
+                        "nodeType": "value", 
+                        "selected": "true", 
+                        "value": ""
+                    }
+                }
+            ]
+        }, 
+        {
+            "data": {
+                "id": "139", 
+                "nodeType": "name", 
+                "rules": [
+                    "list_box"
+                ], 
+                "showType": "list_box", 
+                "value": "应用"
+            }, 
+            "nodes": [
+                {
+                    "data": {
+                        "errorMessage": "", 
+                        "id": "365419", 
+                        "nodeType": "value", 
+                        "value": "Cosmetic"
+                    }
+                }, 
+                {
+                    "data": {
+                        "errorMessage": "", 
+                        "id": "100005829", 
+                        "nodeType": "value", 
+                        "value": "Industy"
+                    }
+                }, 
+                {
+                    "data": {
+                        "errorMessage": "", 
+                        "id": "100005828", 
+                        "nodeType": "value", 
+                        "value": "pharmacy"
+                    }
+                }, 
+                {
+                    "data": {
+                        "errorMessage": "", 
+                        "id": "4", 
+                        "nodeType": "value", 
+                        "value": "Other"
+                    }, 
+                    "nodes": [
+                        {
+                            "data": {
+                                "id": "139", 
+                                "nodeType": "name", 
+                                "rules": [
+                                    "other"
+                                ], 
+                                "showType": "other", 
+                                "value": "Other"
+                            }, 
+                            "nodes": [
+                                {
+                                    "data": {
+                                        "errorMessage": "", 
+                                        "id": "", 
+                                        "nodeType": "value", 
+                                        "value": ""
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }, 
+        {
+            "data": {
+                "id": "20632", 
+                "nodeType": "name", 
+                "rules": [
+                    "list_box"
+                ], 
+                "showType": "list_box", 
+                "value": "精细化"
+            }, 
+            "nodes": [
+                {
+                    "data": {
+                        "errorMessage": "", 
+                        "id": "365421", 
+                        "nodeType": "value", 
+                        "value": "Prime"
+                    }
+                }, 
+                {
+                    "data": {
+                        "errorMessage": "", 
+                        "id": "365422", 
+                        "nodeType": "value", 
+                        "value": "Refined"
+                    }
+                }
+            ]
+        }, 
+        {
+            "data": {
+                "id": "20637", 
+                "nodeType": "name", 
+                "rules": [
+                    "list_box"
+                ], 
+                "showType": "list_box", 
+                "value": "是否白凡士林"
+            }, 
+            "nodes": [
+                {
+                    "data": {
+                        "errorMessage": "", 
+                        "id": "365423", 
+                        "nodeType": "value", 
+                        "value": "Is White Vaseline"
+                    }
+                }, 
+                {
+                    "data": {
+                        "errorMessage": "", 
+                        "id": "365424", 
+                        "nodeType": "value", 
+                        "value": "Not White Vaseline"
+                    }
+                }
+            ]
+        }
+    ]
+}

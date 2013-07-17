@@ -17,7 +17,7 @@ namespace ConsoleTest
             string propertyString = Common.SendUrl(url, ref cookie, null);
             JObject o = JObject.Parse(propertyString);
             if( (bool)o["success"] ){
-                string jsonString = "{ \"root\":"+(string)o["sysAttrjson"]+"}";
+                string jsonString = "{root:"+(string)o["sysAttrjson"]+"}";
                 JObject json = JObject.Parse(jsonString);
 
             }
