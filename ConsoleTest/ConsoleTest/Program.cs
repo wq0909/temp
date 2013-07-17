@@ -11,40 +11,49 @@ namespace ConsoleTest
     {
         static void Main(string[] args)
         {
-            TestUrl.action();
+            My.Login();
+
+            Categories categories = new Categories();
+            categories.getCategories();
+            Console.ReadLine();
         }
     }
-    public static class TestUrl
+    public static class My
     {
-        public static void action()
+        public static CookieContainer loginCookie = null;
+
+        public static void Login()
         {
             CookieContainer cookie = new CookieContainer();
             NameValueCollection headderColl = new NameValueCollection();
             headderColl.Add("Referer", "https://login.alibaba.com");
+            string output = Common.SendUrl("https://login.alibaba.com/", ref cookie, headderColl);
 
-             string output = TestUrl.sendUrl("https://login.alibaba.com/", ref cookie, headderColl);
-
-             output = TestUrl.sendUrl("https://login.alibaba.com/xman/xlogin.js?pd=alibaba&pageFrom=standardlogin&u_token=B634507bd7c342df39b6937541c3d3be5&xloginPassport=aliqatest01&xloginPassword=1227qa01aetest&dmtrack_pageid=73c5f09b6e4bd84051c8606513f76b890046df13bb", ref cookie, headderColl);
+             output = Common.SendUrl("https://login.alibaba.com/xman/xlogin.js?pd=alibaba&pageFrom=standardlogin&u_token=B634507bd7c342df39b6937541c3d3be5&xloginPassport=aliqatest01&xloginPassword=0702qa01aetest&dmtrack_pageid=73c5f09b6e4bd84051c8606513f76b890046df13bb", ref cookie, headderColl);
 
             var match = Regex.Match(output, ":\"(.*?)\"}$");
             string tokenString = match.Groups[1].Value;
 
-            output = TestUrl.sendUrl("https://passport.alipay.com/mini_apply_st.js?site=4&callback=window.xmanDealTokenCallback&token=" + tokenString, ref cookie, headderColl);
+            output = Common.SendUrl("https://passport.alipay.com/mini_apply_st.js?site=4&callback=window.xmanDealTokenCallback&token=" + tokenString, ref cookie, headderColl);
 
             match = Regex.Match(output, "\"st\":\"(.*?)\"},", RegexOptions.Multiline);
             string st = match.Groups[1].Value;
 
             //string st = Regex.Match( matchString, "^\"st\":\"(.*?)\"},$" ).Groups[1].Value;
-            output = TestUrl.sendUrl("https://login.alibaba.com/validateST.htm?st=" + st + "&pd=alibaba&pageFrom=standardlogin&u_token=B634507bd7c342df39b6937541c3d3be5&xloginPassport=aliqatest01&xloginPassword=1227qa01aetest&dmtrack_pageid=73c5f09b6e4bd84051c8606513f76b890046df13bb", ref cookie,  headderColl);
+            output = Common.SendUrl("https://login.alibaba.com/validateST.htm?st=" + st + "&pd=alibaba&pageFrom=standardlogin&u_token=B634507bd7c342df39b6937541c3d3be5&xloginPassport=aliqatest01&xloginPassword=0702qa01aetest&dmtrack_pageid=73c5f09b6e4bd84051c8606513f76b890046df13bb", ref cookie, headderColl);
 
-            Console.WriteLine(output);
+           // Console.WriteLine(output);
 
-            output = TestUrl.sendUrl("http://sh.vip.alibaba.com/index.htm", ref cookie, headderColl);
+            output = Common.SendUrl("http://sh.vip.alibaba.com/index.htm", ref cookie, headderColl);
 
-            Console.WriteLine(output.IndexOf("CRM_notice.html") > -1 ? "-----------------------------ok-------------------------------" : "fxxx");
-            Console.ReadLine();
+            My.loginCookie = cookie;
+
+            Console.WriteLine(output.IndexOf("CRM_notice.html") > -1 ? "-----------------------------ok-------------------------------" : "--error--");
         }
-        public static string sendUrl(string url, ref CookieContainer cookie, NameValueCollection headerColl)
+    }
+    public static class Common
+    {
+        public static string SendUrl(string url, ref CookieContainer cookie, NameValueCollection headerColl)
         {
             // Create a request for the URL. 		
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
@@ -64,13 +73,14 @@ namespace ConsoleTest
             request.CookieContainer = cookie;
             if (headerColl != null)
             {
-                if( !string.IsNullOrEmpty(headerColl.Get("Referer"))){
+                if (!string.IsNullOrEmpty(headerColl.Get("Referer")))
+                {
                     request.Referer = headerColl.Get("Referer");
                 }
             }
 
-            Console.WriteLine("##");
-            Console.WriteLine(url);
+            //Console.WriteLine("##");
+            //Console.WriteLine(url);
 
             /*System.Net.CookieContainer cs = new System.Net.CookieContainer();
             System.Net.CookieCollection cc = cs.GetCookies(new Uri(url));
@@ -96,7 +106,7 @@ namespace ConsoleTest
                 Console.WriteLine(c.Name + ":" + c.Value);
                 //cookie.Add(c);
             }
-            
+
             // Display the content.
             // Console.WriteLine(responseFromServer);
             // Cleanup the streams and the response.
@@ -105,5 +115,6 @@ namespace ConsoleTest
             response.Close();
             return responseFromServer;
         }
+   
     }
 }
