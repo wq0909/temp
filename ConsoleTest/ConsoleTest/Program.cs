@@ -13,8 +13,12 @@ namespace ConsoleTest
         {
             My.Login();
 
-            Categories categories = new Categories();
-            categories.getCategories();
+            //Categories categories = new Categories();
+            //categories.getCategories();
+
+            CategoryProperty property = new CategoryProperty();
+
+            
             Console.ReadLine();
         }
     }
