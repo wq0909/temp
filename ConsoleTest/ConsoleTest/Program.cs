@@ -11,13 +11,13 @@ namespace ConsoleTest
     {
         static void Main(string[] args)
         {
-            My.Login();
+            //My.Login();
 
             //Categories categories = new Categories();
             //categories.getCategories();
 
-            CategoryProperty property = new CategoryProperty();
-
+            //CategoryProperty property = new CategoryProperty();
+			new Album();
             
             Console.ReadLine();
         }

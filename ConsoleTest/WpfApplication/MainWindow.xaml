@@ -1,0 +1,17 @@
+﻿<my:WindowBase x:Class="WpfApplication.MainWindow"
+        xmlns:my="clr-namespace:WpfApplication.Base"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="600" Width="960"  >
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="145*">
+            </ColumnDefinition>
+            <ColumnDefinition Width="331*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="菜单" VerticalAlignment="Bottom" Margin="0,0,0,548" FontSize="16"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="0,26,0,0" VerticalAlignment="Top" Width="75"/>
+
+    </Grid>
+</my:WindowBase>
