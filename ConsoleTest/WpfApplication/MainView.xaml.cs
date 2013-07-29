@@ -28,6 +28,7 @@ namespace WpfApplication
 		{
 			InitializeComponent();
 			Loaded += MainView_Loaded;
+			this.KeyUp+=MainView_KeyUp;
 		}
 
 		void MainView_Loaded(object sender, RoutedEventArgs e)
@@ -38,13 +39,26 @@ namespace WpfApplication
 
 		private void btnUploadClick(object sender, RoutedEventArgs e)
 		{
-			var flyout = this.Flyouts.Items[0] as Flyout;
-			if (flyout == null)
+			if (this.uploadFlyout == null)
 			{
-				return;
+				this.uploadFlyout = this.Flyouts.Items[0] as Flyout;
+				this.uploadFlyout.IsOpenChanged += uploadFlyout_IsOpenChanged;
 			}
+			this.uploadFlyout.IsOpen = !this.uploadFlyout.IsOpen;
+		}
 
-			flyout.IsOpen = !flyout.IsOpen;
+		void uploadFlyout_IsOpenChanged(object sender, EventArgs e)
+		{
+			//throw new NotImplementedException();
+			//this.
+		}
+
+		void MainView_KeyUp(object sender, KeyEventArgs e)
+		{
+			if (e.Key == System.Windows.Input.Key.Escape)
+			{
+				this.Close();
+			}
 		}
 		private void btnSelectPhotosClick(object sender, RoutedEventArgs e)
 		{
@@ -89,7 +103,7 @@ namespace WpfApplication
 			this.currentPhotoFile = photoFile;
 			BitmapImage bmp = new BitmapImage(new Uri(photoFile.FileName));
 			imgEdit.Source = bmp;
-			this.addCropToElement(this.imgEdit);
+			this.addCropToElement(imgEdit);
 		}
 
 		private void addCropToElement(FrameworkElement file)
@@ -132,6 +146,8 @@ namespace WpfApplication
 		public PhotoFile currentPhotoFile { get; set; }
 
 		public CroppingAdorner crop { get; set; }
+
+		public Flyout uploadFlyout { get; set; }
 	}
 	public class PhotoFile
 	{

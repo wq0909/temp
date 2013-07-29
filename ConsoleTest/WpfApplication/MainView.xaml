@@ -44,7 +44,7 @@
 	<Controls:MetroWindow.Flyouts>
 		<Controls:FlyoutsControl Name="fcUploadPhoto">
 			<Controls:Flyout Header="Upload photo(s) panel" Position="Right">
-				<Grid Margin="10,0,0,10">
+				<Grid Margin="10,0,0,10" Background="White">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="210"/>
 						<ColumnDefinition MinWidth="600" Width="*"/>
@@ -78,9 +78,9 @@
 						</StackPanel>
 					</Grid>
 
-					<StackPanel Grid.Column="1" Name="spImageEdit"  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10">
-							<Image Name="imgEdit"  Stretch="UniformToFill"/>
-					</StackPanel>
+					<StackPanel Grid.Column="1" Name="spImageEdit"  Margin="10">
+                        <Image Name="imgEdit"  Stretch="UniformToFill"/>
+                    </StackPanel>
 					<StackPanel Grid.Column="2" Orientation="Vertical">
 						<Image Name="imgUploadPreview" Width="120" Height="120" Stretch="Uniform"/>
 					</StackPanel>

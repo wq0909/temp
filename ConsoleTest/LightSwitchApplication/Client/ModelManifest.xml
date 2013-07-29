@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <ModelDocumentManifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Documents>
-    <Document FullPath="C:\Users\elppa\Documents\GitHub\temp\ConsoleTest\LightSwitchApplication\Client\Properties\Client.lsml" Checksum="793296049518B32580F7C7A91DEC1785634CD985939190029AF687A73996D811" />
-    <Document FullPath="C:\Users\elppa\Documents\GitHub\temp\ConsoleTest\LightSwitchApplication\Common\Properties\Common.lsml" Checksum="CAFF776B34B3E3619D5F40AFA840716CCCA8835484AF249D9E4C86ADE07706C7" />
+    <Document FullPath="D:\work\html\github\temp\ConsoleTest\LightSwitchApplication\Client\Properties\Client.lsml" Checksum="793296049518B32580F7C7A91DEC1785634CD985939190029AF687A73996D811" />
+    <Document FullPath="D:\work\html\github\temp\ConsoleTest\LightSwitchApplication\Common\Properties\Common.lsml" Checksum="CAFF776B34B3E3619D5F40AFA840716CCCA8835484AF249D9E4C86ADE07706C7" />
   </Documents>
 </ModelDocumentManifest>
