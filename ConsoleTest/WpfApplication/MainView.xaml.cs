@@ -98,19 +98,48 @@ namespace WpfApplication
 		{
 			return this.photoFiles.First(query => query.NewFileName == null && query.Status == "Waiting");
 		}
-		private void editImage( PhotoFile photoFile )
+		private void editImage(PhotoFile photoFile)
 		{
 			this.currentPhotoFile = photoFile;
 			BitmapImage bmp = new BitmapImage(new Uri(photoFile.FileName));
-			imgEdit.Source = bmp;
-			this.addCropToElement(imgEdit);
+			imgVisual.Source = bmp;
+			imgVisual.Cursor = Cursors.ScrollAll;
+			imgVisual.MouseDown += imgVisual_MouseDown;
+			imgVisual.MouseUp += imgVisual_MouseUp;
+			imgVisual.MouseMove += imgVisual_MouseMove;
+			this.addCropToElement(imgVisual);
+		}
+
+		void imgVisual_MouseMove(object sender, MouseEventArgs e)
+		{
+			if (m_IsMouseLeftButtonDown)
+			{
+				Point position = e.GetPosition(imgVisual);
+				imgVisual.X += position.X - m_PreviousMousePoint.X;
+				imgVisual.Y += position.Y - m_PreviousMousePoint.Y;
+
+				m_PreviousMousePoint = position;
+			}
+		}
+
+		void imgVisual_MouseUp(object sender, MouseButtonEventArgs e)
+		{
+			imgVisual.ReleaseMouseCapture();
+			m_IsMouseLeftButtonDown = false;
+		}
+
+		void imgVisual_MouseDown(object sender, MouseButtonEventArgs e)
+		{
+			imgVisual.CaptureMouse();
+			m_IsMouseLeftButtonDown = true;
+			m_PreviousMousePoint = e.GetPosition(imgVisual);
 		}
 
 		private void addCropToElement(FrameworkElement file)
 		{
 			Rect rcrcInterior = new Rect(
-				file.ActualWidth * .2,
-				file.ActualHeight * .2,
+				file.ActualWidth * .6,
+				file.ActualHeight * .6,
 				file.ActualWidth * .6,
 				file.ActualHeight * .6);
 			AdornerLayer ady = AdornerLayer.GetAdornerLayer(file);
@@ -148,6 +177,10 @@ namespace WpfApplication
 		public CroppingAdorner crop { get; set; }
 
 		public Flyout uploadFlyout { get; set; }
+
+		public bool m_IsMouseLeftButtonDown { get; set; }
+
+		public Point m_PreviousMousePoint { get; set; }
 	}
 	public class PhotoFile
 	{

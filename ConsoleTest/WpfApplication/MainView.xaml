@@ -79,7 +79,7 @@
 					</Grid>
 
 					<StackPanel Grid.Column="1" Name="spImageEdit"  Margin="10">
-                        <Image Name="imgEdit"  Stretch="UniformToFill"/>
+						<Image Name="imgVisual"  Stretch="UniformToFill"/>
                     </StackPanel>
 					<StackPanel Grid.Column="2" Orientation="Vertical">
 						<Image Name="imgUploadPreview" Width="120" Height="120" Stretch="Uniform"/>
