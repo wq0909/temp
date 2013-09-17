@@ -1,0 +1,7 @@
+content  pi chrome/content/
+skin     pi classic/1.0   chrome/skin/classic/
+locale   pi en-US         chrome/locale/en-US/
+
+resource pi chrome/
+
+overlay chrome://firebug/content/firebugOverlay.xul       chrome://pi/content/mainOverlay.xul

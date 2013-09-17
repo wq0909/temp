@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8'>
+<title>PI接口</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+</head>
+<body>
+<script type="text/javascript" src="api.js"></script>
+<script>
+window.PiApi.validate({
+    urls: ['http://tms.taobao.com/daogou/site/market/preview.htm?spm=0.0.0.0.htvCk4&id=365382'],
+    callback: function(result){
+        console.log(result);
+    }
+})
+</script>
+</body>
+</html>

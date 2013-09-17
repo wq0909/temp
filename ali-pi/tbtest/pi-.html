@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8'>
+<title>PI接口</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+</head>
+<body>
+<script src="http://pi.alibaba-inc.com/browers-extend/firefox/rules/static.js"></script>
+<script>
+var staticCheck = new window.F2EQUALITY.staticCheck;
+
+var pageRunConfig = {
+    url: ['http://tms.taobao.com/daogou/site/market/preview.htm?spm=0.0.0.0.htvCk4&id=365382'],
+    hosts: 'taobao.com taobao.comr\r\ntbcdn.cn tbcdn.cn',
+    browser: {
+        name: 'chrome',
+        version: ''
+    },
+    loginUrl: 'https://login.taobao.com/member/login.jhtml',
+    loginPreClick: 'J_SafeLoginCheck',
+    loginParams: {
+        'TPL_username_1': 'ttest100',
+        'TPL_password_1': 'hello1234 '
+    },
+    loginButton: 'J_SubmitStatic',
+    screenshot: false,
+    timeout: 120000,
+    plugins: {
+        htmlCheck: {
+            config: staticCheck.cache.htmlOption
+        },
+        jsCheck: {
+            white: ['/beacon(_\\w+)?\\.js/i'],
+            config: staticCheck.cache.jsOption
+        },
+        cssCheck: {
+            config: staticCheck.cache.cssOption
+        }
+    }
+};
+
+pageRunConfig.plugins.htmlCheck.config.csslint = staticCheck.cache.cssOption;
+pageRunConfig.plugins.htmlCheck.config.jshint = staticCheck.cache.jsOption;
+
+
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function(){
+    console.log(xmlhttp.status);
+    if(xmlhttp.status == 200){
+        console.log(xmlhttp.responseText);
+    }
+};
+xmlhttp.open("post", 'http://10.20.174.3/api/run', true);
+xmlhttp.send(JSON.stringify(pageRunConfig));
+</script>
+</body>
+</html>

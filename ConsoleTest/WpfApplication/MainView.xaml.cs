@@ -5,17 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using WpfApplication.Models.Album;
 
 namespace WpfApplication
 {
@@ -50,7 +45,7 @@ namespace WpfApplication
 		void uploadFlyout_IsOpenChanged(object sender, EventArgs e)
 		{
 			//throw new NotImplementedException();
-			//this.
+			//this.update
 		}
 
 		void MainView_KeyUp(object sender, KeyEventArgs e)
@@ -143,11 +138,14 @@ namespace WpfApplication
 				file.ActualWidth * .6,
 				file.ActualHeight * .6);
 			AdornerLayer ady = AdornerLayer.GetAdornerLayer(file);
+
 			this.crop = new CroppingAdorner(file, rcrcInterior);
 			ady.Add(this.crop);
-
+			
 			imgUploadPreview.Source = this.crop.BpsCrop();
 			this.crop.CropChanged += this.crop_CropChanged;
+			this.crop.AllowDrop = true;
+			//this.crop.Dr
 		}
 
 		void crop_CropChanged(object sender, RoutedEventArgs e)
