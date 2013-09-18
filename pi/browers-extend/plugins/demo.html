@@ -7,5 +7,16 @@
 		<a href="httphttp://www.alibaba.com">bad link 1</a>
 		<a href="httphttp://www.alibaba.com">bad link 2</a>
 		<a href="httphttp://www.alibaba.com">bad link 3</a>
+		
+		
+	<script>
+		document.documentElement.addEventListener('test-event', function(){
+			console.log('test-event');
+			alert('test');
+		});
+		var event = document.createEvent('Event');
+        event.initEvent('test-event', true, true);
+        document.documentElement.dispatchEvent(event);
+	</script>
 	</body>
 </html>

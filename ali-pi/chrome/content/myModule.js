@@ -44,6 +44,7 @@ function(FBL, FBTrace){
             }
         },
 
+
         //获取域帐号&&login帐号
         _getAccount: function(element){
 //FBTrace.sysout("_getAccount");   
@@ -200,7 +201,7 @@ function(FBL, FBTrace){
             self.cache.checkType = obj.checkType;
 //FBTrace.sysout("ready for each");
             $.each(obj.checkType, function(i, type){
-                //FBTrace.sysout("type="+type);
+              //FBTrace.sysout("type="+type);
                 if(type == 'xbrower'){
                     var xbrower = Firebug.xbrowerModule._run({
                         hosts: cacheData.hosts,
@@ -258,7 +259,6 @@ function(FBL, FBTrace){
                     });
                 }
                 else{
-
                   //FBTrace.sysout("plugin choose======="+type);
                     self._getScript({
                         // 添加一个标识, 在捕获http请求时不处理带有该标识的资源文件
@@ -289,26 +289,10 @@ function(FBL, FBTrace){
          */
         _getScript: function(config){
 //FBTrace.sysout("_getScript");
-
-
-
-            
-            //}
-            // var is_jq = $.find("[src='http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js']");
-            // has_jq = window._content.document.getElementsByTagName('script');
-            // FBTrace.sysout("is_jq="+is_jq.length);
-
-            // var qtip = content.document.createElement('script');
-            // qtip.setAttribute('src', "http://pi.alibaba-inc.com/browers-extend/plugins/jquery.qtip-1.0.0-rc3.min.js");
-            // content.document.body.appendChild(qtip);
-
-            //FBTrace.sysout("_getScript");
-
             var scriptNode = content.document.createElement('script');
 
             scriptNode.setAttribute('charset', 'utf-8');
             scriptNode.setAttribute('src', config.url);
-
 
             scriptNode.addEventListener('load', function(){
                 // 执行回调方法
@@ -318,7 +302,6 @@ function(FBL, FBTrace){
             });
 
             content.document.body.appendChild(scriptNode);
-            //导致运行不下去FBTrace.sysout("Script html="+document.html());
         },
 
 
@@ -629,7 +612,6 @@ chromeToPath: function (aPath) {
             var self = this;
             var tabHtml = "<li class= 'tab-checkitem tab-active'> <a href=javascript:;>"+ '\u68c0\u6d4b\u9879'+"</a></li>"+
                      "<li class= 'tab-plugin'> <a href=javascript:;>"+ '\u63d2\u4ef6\u7ba1\u7406'+"</a></li>"+
-                     //"<li class= 'tab-debug'> <a href=javascript:;>"+ '\u4ee3\u7801\u8c03\u8bd5'+"</a></li>"+
                     "<li class= 'static'> <a href=javascript:;>"+ '\u4ee3\u7801\u626b\u63cf\u7ed3\u679c'+"</a></li>"+
                     "<li class= 'resource'> <a href=javascript:;>"+ '\u8d44\u6e90\u6709\u6548\u6027\u68c0\u67e5\u7ed3\u679c'+"</a></li>"+
                     "<li class= 'automate'> <a href=javascript:;>"+ '\u524d\u7aef\u81ea\u52a8\u5316\u7ed3\u679c'+"</a></li>"+
@@ -745,11 +727,6 @@ chromeToPath: function (aPath) {
             $(panelNode).find('.tab-box').append(plugResultHtml);
             var pluginAllList = pluginInstalledList + trunkDoneList;
             $(panelNode).find('.all-plugin-list').eq(0).html(pluginAllList);
-            //插入jqery
-
-            var jq = content.document.createElement('script');
-            jq.setAttribute('src', "http://pi.alibaba-inc.com/browers-extend/plugins/jquery-1.8.3.min.js");
-            content.document.body.appendChild(jq);
         },
 
         /**
@@ -760,14 +737,13 @@ chromeToPath: function (aPath) {
          * result.collectResult 需要发送到服务器端的数据
          */
         _handOutResult: function(el, result){
-            FBTrace.sysout("_handOutResult");
+//FBTrace.sysout("_handOutResult");
             var cache = this.cache;
             var checkBtn = el.find('#pan-btn-check');
             var index = 1;
             var targetTab = null;
             var resultEl = null;
             var resultNum = el.data('resultNum');
-            //FBTrace.sysout("resultNum1="+resultNum);
 
             // if(result.type == 'static'){
             //     index = 1;
@@ -818,7 +794,7 @@ chromeToPath: function (aPath) {
                 }else{
                     resultNum++;
                 }
-                //FBTrace.sysout("resultNum2="+resultNum);
+
                 el.data('resultNum', resultNum);
 
                 if(resultNum == cache.checkType.length){

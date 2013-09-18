@@ -103,8 +103,6 @@ function(FBL, FBTrace) {
             Firebug.myModule.loadPlug(self.panelNode);
 
             $(self.panelNode).find('.p-tab li').eq(1).css('display', 'block');
-            //$(self.panelNode).find('.p-tab li').eq(2).css('display', 'block');
-            
             self._bindEvent();
 
             //判断是否自动开始
@@ -233,10 +231,6 @@ function(FBL, FBTrace) {
             element.find('#pan-btn-uninstall-plugin').bind('click', this, function(e){
                  e.data.collectDataForPlugin('#pan-btn-uninstall-plugin');
             });
-            //  本地调试按钮
-            //element.find('#pan-debug-btn').bind('click', this, function(e){
-            //    e.data.debugCode(element);
-            //});
 
             // 折叠&&展开检测结果
             element.find('.error-box h6').live('click', function(e){
@@ -283,48 +277,7 @@ function(FBL, FBTrace) {
                 )
                 content.window.location.href = url.join('');
             });
-
-            element.find('.item-area a').live('click',function(e))
         },
-
-        name: "linkInspector",
-        title: "Link Inspector",
-        inspectable: true,
-        inspectHighlightColor: "green",
-
-        show: function(state) {
-            Firebug.Panel.show.apply(this, arguments);
-            LinkInspectorPlate.defaultContent.replace(
-                {}, this.panelNode);
-        },
-
-        startInspecting: function() {
-            LinkInspectorPlate.linkUrl.replace(
-            {object: node}, this.panelNode);
-        },
-
-        inspectNode: function(node) {
-            return false;
-        },
-
-        stopInspecting: function(node, canceled) {
-            if (canceled || node.href.indexOf("http") != 0)
-                return;
-
-            LinkInspectorPlate.linkPreview.replace(
-                {object: node}, this.panelNode);
-        },
-
-        supportsObject: function(object, type) {
-            if (object instanceof Element) {
-                if (object.tagName.toLowerCase() == "a")
-                    return 1;
-            }
-            return 0;
-        },
-
-
-
 
         //获取用户选择的相关事件
         _collectData: function(){
@@ -405,7 +358,6 @@ function(FBL, FBTrace) {
             domain_account = ls._get("mt_domain_account");
             // 处理数据
 
-
             Firebug.myModule._userlog({
                 checkType: checkType,
                 browers: browers,
@@ -415,19 +367,16 @@ function(FBL, FBTrace) {
                 domain_account: domain_account,
                 url: window._content.document.location.href
             });
-
-            this.startInspecting;
-
-            // Firebug.myModule._startValidate({
-            //     element: element,
-            //     checkType: checkType,
-            //     browers: browers,
-            //     uname: uname,
-            //     pwd: pwd,
-            //     crid: crid
-            // });
+            
+            Firebug.myModule._startValidate({
+                element: element,
+                checkType: checkType,
+                browers: browers,
+                uname: uname,
+                pwd: pwd,
+                crid: crid
+            });
         },
-
 
          // 获取用户选择的插件（安装或者卸载）
         collectDataForPlugin: function(buttonId){
@@ -482,31 +431,6 @@ function(FBL, FBTrace) {
             });
             }
         },
-
-        // debugCode: function(element){
-        //     var cacheData = Firebug.cacheListener._getCacheData();
-        //     var script = element.find('.pan-debug-text').val();
-        //         FBTrace.sysout("script="+script);
-        //     //cacheData.script = script;
-        //     Firebug.myModule._getScript({
-        //         url: 'http://pi.alibaba-inc.com/browers-extend/plugins/piifv.js?@sc=mt@t='+ new Date().getTime(),
-        //             callback: function(){
-        //                 var win = window.top.getBrowser().selectedBrowser.contentWindow.wrappedJSObject;
-        //                 var factory = win.F2EQUALITY['piifvCheck'];
-        //
-        //                 new factory().init(script,
-        //                     function(result){
-        //                         // 处理检测结果
-        //                         self._handOutResult($(this.panelNode), result);
-        //                     }
-        //                 );
-        //             }
-        //     });
-        //
-        // },
-
-
-    
 
         _resetPanel: function(){
 //FBTrace.sysout("_resetPanel");
@@ -581,12 +505,6 @@ function(FBL, FBTrace) {
                                     '\u63d2\u4ef6\u7ba1\u7406'
                                 )
                             ),
-                            // FBL.LI({class: 'tab-debug'},
-                            //     FBL.A({href: 'javascript:;'},
-                            //         //html:代码调试
-                            //         '\u4ee3\u7801\u8c03\u8bd5'
-                            //     )
-                            // ),
                             FBL.LI({class: 'res-static'},
                                 FBL.A({href: 'javascript:;'},
                                     //html:代码扫描结果
@@ -741,10 +659,6 @@ function(FBL, FBTrace) {
                                 ),
                                 FBL.DIV({class: 'pan-result-msg'})
                             ),
-                            // FBL.DIV({class: 'tab-item pan-debug', id: 'code-debug'},
-                            //     FBL.TEXTAREA({type: 'text_field', id: 'code', name: 'code', class: 'pan-debug-text'}),
-                            //     FBL.BUTTON({class: 'pan-debug-btn',id: 'pan-debug-btn'},'\u63d2\u5165\u5e76\u8fd0\u884c')
-                            // ),
                             FBL.DIV({class: 'tab-item pan-result', id: 'static'}),
                             FBL.DIV({class: 'tab-item pan-result', id: 'resource'}),
                             FBL.DIV({class: 'tab-item pan-result', id: 'automate'}),
@@ -752,19 +666,6 @@ function(FBL, FBTrace) {
                         )
                     )
                 ),
-
-            defaultContent:
-                DIV({"class": "defaultContent"},
-                    "Use Firebug Inspector and try to inspect a link on the page."
-                ),
-
-            linkUrl:
-                DIV({"class": "linkUrl"},
-                    "$object.href"
-                ),
-
-            linkPreview:
-                IFRAME({"class": "linkPreview", "src": "$object.href"}),
 
 
             render: function(parentNode){
