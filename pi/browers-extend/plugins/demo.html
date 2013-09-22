@@ -1,22 +1,60 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>test</title>
-	</head>
-	<body>
-		<a href="httphttp://www.alibaba.com">bad link 1</a>
-		<a href="httphttp://www.alibaba.com">bad link 2</a>
-		<a href="httphttp://www.alibaba.com">bad link 3</a>
-		
-		
-	<script>
-		document.documentElement.addEventListener('test-event', function(){
-			console.log('test-event');
-			alert('test');
-		});
-		var event = document.createEvent('Event');
-        event.initEvent('test-event', true, true);
+  <head>
+    <title>test</title>
+    <meta charset='utf-8'>
+    <link rel="stylesheet" href="http://style.aliunicorn.com/6v/apollo/core/core-sc|null.css" media="screen" />
+  </head>
+  <body>
+    <a href="httphttp://www.alibaba.com">bad link 1</a><br/>
+    <a href="httphttp://www.alibaba.com">bad link 2</a><br/>
+    <a href="httphttp://www.alibaba.com">bad link 3</a><br/>
+    
+    <a href="http://www.alibaba.com">bad link 4</a>
+    <div style="margin-top:100px;">
+      <a href="javascript:;" id="annotation-on">Annotation On</a>
+      <a href="javascript:;" id="annotation-off">Annotation Off</a>
+
+      <a href="javascript:;" id="show-index">Show Index</a>
+    </div>
+    <div id="output">
+    </div>
+  <script>
+    document.documentElement.addEventListener('test-event', function( e, ev){
+      console.log('test-event');
+      //console.dir( e );
+      //console.log( ev );
+      //alert('test');
+    });
+    var event = document.createEvent('Event');
+        event.initEvent('test-event', true, true, 'abc');
         document.documentElement.dispatchEvent(event);
-	</script>
-	</body>
+
+    var onElm = document.getElementById('annotation-on');
+    onElm.addEventListener('click',function(e,ev){
+      window.F2EQUALITY.pitmall11Check.annotationOn();
+    });
+
+    var offElm = document.getElementById('annotation-off');
+    offElm.addEventListener('click',function(e,ev){
+      window.F2EQUALITY.pitmall11Check.annotationOff();
+    });
+
+    var showIndexElm = document.getElementById('show-index');
+    showIndexElm.addEventListener('click',function(e,ev){
+      window.F2EQUALITY.pitmall11Check.showIndex( 1 );
+    });
+
+  </script>
+
+
+  <script src="pitmall11.js"></script>
+
+  <script>
+    var tmall = window.F2EQUALITY.pitmall11Check;
+    tmall.init( {},function( obj ){
+      document.getElementById('output').innerHTML = obj.msg;
+    });
+  </script>
+  </body>
 </html>
